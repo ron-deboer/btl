@@ -1,0 +1,20 @@
+.bg-custom {
+    background: linear-gradient(110deg, #727d7a 60%, #9e8a59 60%);
+}
+.title {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    .title-left {
+    }
+    .title-center {
+        text-transform: uppercase;
+    }
+    .title-right {
+    }
+}
+.logout {
+}

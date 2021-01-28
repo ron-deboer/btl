@@ -1,0 +1,40 @@
+.page-container {
+    width: 50%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: row;
+    min-height: 80vh;
+    .left-panel {
+        display: grid;
+        place-items: center;
+        width: 50%;
+        background: linear-gradient(110deg, #727d7a 60%, #9e8a59 60%);
+        color: white;
+    }
+    .right-panel {
+        display: grid;
+        place-items: center;
+        width: 50%;
+        background: #ccc;
+        label {
+            color: maroon;
+        }
+        #username,
+        #current-password {
+            background-color: #ffc;
+        }
+        .btnSubmit {
+            font-weight: 600;
+            width: 50%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+        }
+        .error {
+            min-height: 70px;
+            max-height: 70px;
+            padding-top: 50px;
+            color: crimson;
+        }
+    }
+}

@@ -1,0 +1,37 @@
+<div class="home-container">
+    <h4>Users</h4>
+    <div class="table-responsive">
+        <table id="mytable" class="table table-bordred table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users$ | async; index as i">
+                    <td data-title="Id" class="numeric">{{ i + 1 }}</td>
+                    <td data-title="UserName">{{ user.username }}</td>
+                    <td data-title="FullName">{{ user.name }}</td>
+                    <td data-title="Email">{{ user.email }}</td>
+                    <td data-title="Phone">{{ user.phone }}</td>
+                    <td data-title="City">{{ user.address.city }}</td>
+                    <td>
+                        <button class="btn-edit" data-title="Edit" data-toggle="modal" data-target="#edit" (click)="onEditRow(i)">
+                            <i class="fa fa-pencil fa-xs"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn-delete" data-title="Delete" data-toggle="modal" data-target="#delete">
+                            <i class="fa fa-trash fa-xs"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
