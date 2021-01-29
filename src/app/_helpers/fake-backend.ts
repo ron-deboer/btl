@@ -15,69 +15,22 @@ import { ICode, ECodeType } from '../_interfaces/code';
 
 declare var alasql: any;
 
-const users: IUser[] = [
-    {
-        id: 1,
-        username: 'admin',
-        password: 'admin',
-        firstName: 'Admin',
-        lastName: 'User',
-        roles: [ERole.Admin, ERole.User],
-    },
-    {
-        id: 2,
-        username: 'user',
-        password: 'user',
-        firstName: 'Normal',
-        lastName: 'User',
-        roles: [ERole.User],
-    },
-];
-const codes: ICode[] = [
-    {
-        id: 1,
-        codeType: ECodeType.Priority,
-        code: 'High',
-        description: 'High Priority',
-    },
-    {
-        id: 2,
-        codeType: ECodeType.Priority,
-        code: 'Medium',
-        description: 'Medium Priority',
-    },
-    {
-        id: 2,
-        codeType: ECodeType.Priority,
-        code: 'Low',
-        description: 'Low Priority',
-    },
-];
-
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+    users: IUser[] = [];
+    codes: ICode[] = [];
+
     constructor() {
-        alasql(
-            'CREATE TABLE users (id int, username string, password string, firstName string, lastName string, roles string)'
-        );
-        for (let i = 0; i < users.length; i++) {
-            const { id, username, password, firstName, lastName, roles } = users[i];
-            alasql(
-                `INSERT INTO users VALUES (${id}, '${username}', '${password}', '${firstName}', '${lastName}', '${roles}')`
-            );
-        }
-        const results = alasql('SELECT * FROM users');
-        console.log(results);
+        let loader = new LoadData();
+        this.users = loader.loadUsers();
+        this.codes = loader.loadCodes();
+        // this.items = loader.loadItems();
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
-        return of(null)
-            .pipe(mergeMap(handleRoute))
-            .pipe(materialize())
-            .pipe(delay(500))
-            .pipe(dematerialize());
+        return of(null).pipe(mergeMap(handleRoute)).pipe(materialize()).pipe(delay(500)).pipe(dematerialize());
 
         function handleRoute() {
             switch (true) {
@@ -96,35 +49,28 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
         function authenticate() {
             const { username, password } = body;
-            const user = users.find((x) => x.username === username && x.password === password);
-            if (!user) return error('Username or password is incorrect');
+            const user = this.users.find((x) => x.username === username && x.password === password);
+            if (!user) return error('Invalid credentials');
             return ok({
                 id: user.id,
                 username: user.username,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 roles: user.roles,
-                token: `fake-jwt-token.${user.id}`,
+                token: `dummy-jwt-token.${user.id}`,
             });
         }
 
         function getUsers() {
-            if (!isAdmin()) return unauthorized();
-            return ok(users);
+            return ok(this.users);
         }
 
         function getUserById() {
-            if (!isLoggedIn()) return unauthorized();
-
-            // only admins can access other user records
-            if (!isAdmin() && currentUser().id !== idFromUrl()) return unauthorized();
-
-            const user = users.find((x) => x.id === idFromUrl());
+            const user = this.users.find((x) => x.id === idFromUrl());
             return ok(user);
         }
 
-        // helper functions
-
+        // util functions
         function ok(body) {
             return of(new HttpResponse({ status: 200, body }));
         }
@@ -135,21 +81,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function error(message) {
             return throwError({ status: 400, error: { message } });
-        }
-
-        function isLoggedIn() {
-            const authHeader = headers.get('Authorization') || '';
-            return authHeader.startsWith('Bearer fake-jwt-token');
-        }
-
-        function isAdmin() {
-            return isLoggedIn() && currentUser().roles.includes(ERole.Admin);
-        }
-
-        function currentUser() {
-            if (!isLoggedIn()) return;
-            const id = parseInt(headers.get('Authorization').split('.')[1]);
-            return users.find((x) => x.id === id);
         }
 
         function idFromUrl() {
@@ -164,3 +95,69 @@ export const fakeBackendProvider = {
     useClass: FakeBackendInterceptor,
     multi: true,
 };
+
+class LoadData {
+    loadUsers(): IUser[] {
+        let users: IUser[] = [
+            {
+                id: 1,
+                username: 'admin',
+                password: 'admin',
+                firstName: 'Admin',
+                lastName: 'User',
+                roles: [ERole.Admin, ERole.User],
+            },
+            {
+                id: 2,
+                username: 'user',
+                password: 'user',
+                firstName: 'Normal',
+                lastName: 'User',
+                roles: [ERole.User],
+            },
+        ];
+        alasql(
+            'CREATE TABLE users (id int, username string, password string, firstName string, lastName string, roles string)'
+        );
+        for (let i = 0; i < users.length; i++) {
+            const { id, username, password, firstName, lastName, roles } = users[i];
+            alasql(
+                `INSERT INTO users VALUES (${id}, '${username}', '${password}', '${firstName}', '${lastName}', '${roles}')`
+            );
+        }
+        const results = alasql('SELECT * FROM users');
+        console.log(results);
+        return results;
+    }
+
+    loadCodes(): ICode[] {
+        let codes: ICode[] = [
+            {
+                id: 1,
+                codeType: ECodeType.Priority,
+                code: 'High',
+                description: 'High Priority',
+            },
+            {
+                id: 2,
+                codeType: ECodeType.Priority,
+                code: 'Medium',
+                description: 'Medium Priority',
+            },
+            {
+                id: 2,
+                codeType: ECodeType.Priority,
+                code: 'Low',
+                description: 'Low Priority',
+            },
+        ];
+        alasql('CREATE TABLE code (id int, codeType string, code string, description string)');
+        for (let i = 0; i < codes.length; i++) {
+            const { id, codeType, code, description } = codes[i];
+            alasql(`INSERT INTO code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
+        }
+        const results = alasql('SELECT * FROM code');
+        console.log(results);
+        return results;
+    }
+}
