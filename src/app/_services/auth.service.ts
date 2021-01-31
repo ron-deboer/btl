@@ -6,6 +6,8 @@ import { environment } from '../../environments/environment';
 import { IUser } from '../_interfaces/user';
 import { EventType, MsgService } from './msg.service';
 
+import * as CryptoJS from 'crypto-js';
+
 @Injectable({
     providedIn: 'root',
 })
@@ -24,8 +26,10 @@ export class AuthService {
 
     login(username: string, password: string): Promise<boolean> {
         this.authenticated = false;
+        let enc = CryptoJS.Rabbit.encrypt(`${username}.${password}`, '12:30pmIsTime4Lunch!');
+        const dat = enc.toString();
         return this.http
-            .post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
+            .post<any>(`${environment.apiUrl}/users/authenticate`, { dat })
             .toPromise()
             .then(
                 (user) => {

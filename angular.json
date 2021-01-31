@@ -17,7 +17,8 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/ngapp",
+                        "allowedCommonJsDependencies": ["crypto-js", "crypto"],
+                        "outputPath": "dist/btl",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
