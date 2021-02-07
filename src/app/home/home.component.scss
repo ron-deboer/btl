@@ -2,6 +2,19 @@
     max-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    .title {
+        display: grid;
+        grid-template-columns: 90% auto;
+        .plus {
+            margin-top: 3px;
+            text-align: center;
+        }
+    }
+    .btn-add {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #cfc;
+    }
     .btn-edit {
         border: 1px solid #aaa;
         border-radius: 4px;
@@ -18,5 +31,11 @@
     }
     .numeric {
         text-align: end;
+    }
+}
+#edit {
+    .label {
+        color: maroon;
+        margin: 0;
     }
 }

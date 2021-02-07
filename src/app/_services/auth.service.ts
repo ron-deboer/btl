@@ -26,10 +26,13 @@ export class AuthService {
 
     login(username: string, password: string): Promise<boolean> {
         this.authenticated = false;
-        let enc = CryptoJS.Rabbit.encrypt(`${username}.${password}`, '12:30pmIsTime4Lunch!');
+        let enc = CryptoJS.Rabbit.encrypt(
+            `${username}.${password}`,
+            'QprU5OzwntBSJFfo6b6XRByY8G8cQELn'
+        );
         const dat = enc.toString();
         return this.http
-            .post<any>(`${environment.apiUrl}/users/authenticate`, { dat })
+            .post<any>(`${environment.apiUrl}/user/authenticate`, { dat })
             .toPromise()
             .then(
                 (user) => {
