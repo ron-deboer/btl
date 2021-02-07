@@ -1,4 +1,5 @@
 ﻿export enum ECodeType {
+    Project = 'project',
     Priority = 'priority',
     Size = 'size',
     Status = 'status',
