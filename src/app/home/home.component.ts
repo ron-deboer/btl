@@ -1,18 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { IUser } from '../_interfaces/user';
 import { isNumeric } from '../_helpers/utils';
-
 import { UserService } from '../_services/user.service';
-
-const USER_CRUD_SPEC = [
-    { key: 'id', default: 0 },
-    { key: 'username', default: '' },
-    { key: 'name', default: '' },
-    { key: 'email', default: '' },
-    { key: 'role', default: 'user' },
-];
 
 @Component({
     selector: 'app-home',
@@ -20,43 +10,47 @@ const USER_CRUD_SPEC = [
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    users: BehaviorSubject<IUser[]> = new BehaviorSubject([]);
-    users$: Observable<IUser[]> = this.users.asObservable();
-
+    loading = true;
+    users: IUser[] = [];
     model: IUser = null;
 
-    loading = true;
+    USER_CRUD_SPEC = {
+        id: { type: 'text', default: 0 },
+        username: { type: 'text', default: '' },
+        name: { type: 'text', default: '' },
+        email: { type: 'text', default: '' },
+        role: { type: 'select', source: ['admin', 'user'], default: 'user' },
+    };
 
     constructor(private userService: UserService, private cdRef: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.fetchAllUsers().then((resp) => {
-            this.cdRef.detectChanges();
+            this.users = resp;
+            console.log('1111', resp[0]);
+            this.loading = false;
         });
     }
 
-    fetchAllUsers(): Promise<IUser[]> {
-        return this.userService
-            .getAll()
-            .toPromise()
-            .then((resp: IUser[]) => {
-                this.users.next(resp);
-                this.loading = false;
-                console.log(this.users.value);
-            });
+    fetchAllUsers(): Promise<any> {
+        return this.userService.getAll().toPromise();
     }
 
+    onSubmit() {}
+
     onEditRow(idx: number): void {
-        this.model = null;
+        this.model = {} as IUser;
         if (idx === -1) {
-            USER_CRUD_SPEC.forEach((field) => {
-                this.model[field.key] = field.default;
+            Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+                this.model[field] = this.USER_CRUD_SPEC[field].default;
             });
             return;
         }
-        const dat = this.users.value[idx];
-        USER_CRUD_SPEC.forEach((field) => {
-            this.model[field.key] = isNumeric(field.default) ? parseInt(dat[field.key], 10) : dat[field.key];
+        const dat = this.users.find((x) => x.id === idx);
+        Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
         });
     }
 }

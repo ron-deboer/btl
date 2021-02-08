@@ -8,7 +8,7 @@ export interface IUser {
     username: string;
     name: string;
     email: string;
-    role: ERole[];
+    role: ERole;
     password: string;
     token?: string;
 }

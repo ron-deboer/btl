@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { AuthService } from '../_services/auth.service';
+import { FakeDataLoader } from '../_helpers/fake-data';
 
 @Component({
     selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent implements OnInit {
 
     constructor(private authService: AuthService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        FakeDataLoader();
+    }
 
     onSubmit(): void {
         this.error = '';

@@ -1,1 +1,140 @@
-<p>users works!</p>
+<div class="users-container">
+    <div class="title">
+        <h4>Users</h4>
+        <div class="plus">
+            <button
+                class="btn-add"
+                data-title="Add"
+                data-toggle="modal"
+                data-target="#edit"
+                (click)="onEditRow(-1)"
+            >
+                <i class="fa fa-plus fa-xs"></i>
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive" *ngIf="!loading">
+        <table id="mytable" class="table table-bordred table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Email</th>
+                <th>role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of users">
+                    <td data-title="Id" class="numeric">{{ row.id }}</td>
+                    <td data-title="UserName">{{ row.username }}</td>
+                    <td data-title="FullName">{{ row.name }}</td>
+                    <td data-title="Email">{{ row.email }}</td>
+                    <td data-title="Role">{{ row.role }}</td>
+                    <td>
+                        <button
+                            class="btn-edit"
+                            data-title="Edit"
+                            data-toggle="modal"
+                            data-target="#edit"
+                            (click)="onEditRow(row.id)"
+                        >
+                            <i class="fa fa-pencil fa-xs"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            class="btn-delete"
+                            data-title="Delete"
+                            data-toggle="modal"
+                            data-target="#delete"
+                        >
+                            <i class="fa fa-trash fa-xs"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- edit modal -->
+<div
+    class="modal fade"
+    id="edit"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="editLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="model != null">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label class="label" for="id">Id</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="id"
+                            name="id"
+                            [(ngModel)]="model.id"
+                            READONLY
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="username">User Name</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="username"
+                            name="username"
+                            placeholder="User Name"
+                            [(ngModel)]="model.username"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="name">Full Name</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="name"
+                            name="name"
+                            placeholder="Full Name"
+                            [(ngModel)]="model.name"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="email">Email</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="email"
+                            name="email"
+                            placeholder="Email"
+                            [(ngModel)]="model.email"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="role">Role</label>
+                        <select class="form-control" id="role" name="role" [(ngModel)]="model.role">
+                            <option [ngValue]="r" *ngFor="let r of USER_CRUD_SPEC.role.source">
+                                {{ r }}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+
+import { IUser } from '../_interfaces/user';
+import { isNumeric } from '../_helpers/utils';
+import { UserService } from '../_services/user.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
+    loading = true;
+    users: IUser[] = [];
+    model: IUser = null;
 
-  constructor() { }
+    USER_CRUD_SPEC = {
+        id: { type: 'text', default: 0 },
+        username: { type: 'text', default: '' },
+        name: { type: 'text', default: '' },
+        email: { type: 'text', default: '' },
+        role: { type: 'select', source: ['admin', 'user'], default: 'user' },
+    };
 
-  ngOnInit(): void {
-  }
+    constructor(private userService: UserService, private cdRef: ChangeDetectorRef) {}
 
+    ngOnInit(): void {
+        this.fetchAllUsers().then((resp) => {
+            this.users = resp;
+            this.loading = false;
+        });
+    }
+
+    fetchAllUsers(): Promise<any> {
+        return this.userService.getAll().toPromise();
+    }
+
+    onSubmit() {}
+
+    onEditRow(idx: number): void {
+        this.model = {} as IUser;
+        if (idx === -1) {
+            Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+                this.model[field] = this.USER_CRUD_SPEC[field].default;
+            });
+            return;
+        }
+        const dat = this.users.find((x) => x.id === idx);
+        Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
+        });
+    }
 }
