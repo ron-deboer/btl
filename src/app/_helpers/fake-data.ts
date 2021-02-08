@@ -6,18 +6,18 @@ export const FAKE_USERS: IUser[] = [
     {
         id: 1,
         username: 'admin',
+        name: 'name-admin',
+        email: 'email-admin',
         password: 'admin',
-        firstName: 'fn-admin',
-        lastName: 'ln-admin',
-        roles: [ERole.Admin, ERole.User],
+        role: [ERole.Admin, ERole.User],
     },
     {
         id: 2,
         username: 'user',
+        name: 'name-user',
+        email: 'email-user',
         password: 'user',
-        firstName: 'fn-user',
-        lastName: 'ln-user',
-        roles: [ERole.User],
+        role: [ERole.User],
     },
 ];
 

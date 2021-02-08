@@ -2,55 +2,42 @@
     <div class="title">
         <h4>Users</h4>
         <div class="plus">
-            <button
-                class="btn-add"
-                data-title="Add"
-                data-toggle="modal"
-                data-target="#edit"
-                (click)="onEditRow(-1)"
-            >
+            <button class="btn-add" data-title="Add" data-toggle="modal" data-target="#edit" (click)="onEditRow(-1)">
                 <i class="fa fa-plus fa-xs"></i>
             </button>
         </div>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="!loading">
         <table id="mytable" class="table table-bordred table-striped">
             <thead>
                 <th>Id</th>
                 <th>Username</th>
                 <th>Fullname</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>City</th>
+                <th>role</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users$ | async; index as i">
-                    <td data-title="Id" class="numeric">{{ i + 1 }}</td>
+                <tr *ngFor="let user of users$ | async">
+                    <td data-title="Id" class="numeric">{{ user.id }}</td>
                     <td data-title="UserName">{{ user.username }}</td>
                     <td data-title="FullName">{{ user.name }}</td>
                     <td data-title="Email">{{ user.email }}</td>
-                    <td data-title="Phone">{{ user.phone }}</td>
-                    <td data-title="City">{{ user.address.city }}</td>
+                    <td data-title="Role">{{ user.role }}</td>
                     <td>
                         <button
                             class="btn-edit"
                             data-title="Edit"
                             data-toggle="modal"
                             data-target="#edit"
-                            (click)="onEditRow(i)"
+                            (click)="onEditRow(user.id)"
                         >
                             <i class="fa fa-pencil fa-xs"></i>
                         </button>
                     </td>
                     <td>
-                        <button
-                            class="btn-delete"
-                            data-title="Delete"
-                            data-toggle="modal"
-                            data-target="#delete"
-                        >
+                        <button class="btn-delete" data-title="Delete" data-toggle="modal" data-target="#delete">
                             <i class="fa fa-trash fa-xs"></i>
                         </button>
                     </td>
@@ -61,16 +48,9 @@
 </div>
 
 <!-- edit modal -->
-<div
-    class="modal fade"
-    id="edit"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="editLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" *ngIf="!loading">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -80,7 +60,7 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label class="label" for="username">Id</label>
+                        <label class="label" for="id">Id</label>
                         <input
                             type="text"
                             class="form-control input-sm"
@@ -103,7 +83,7 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="label" for="firstname">Full Name</label>
+                        <label class="label" for="name">Full Name</label>
                         <input
                             type="text"
                             class="form-control input-sm"
@@ -114,7 +94,7 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="label" for="firstname">Email</label>
+                        <label class="label" for="email">Email</label>
                         <input
                             type="text"
                             class="form-control input-sm"
@@ -122,6 +102,17 @@
                             placeholder="Email"
                             [(ngModel)]="model.email"
                             name="email"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="role">Role</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="role"
+                            placeholder="Role"
+                            [(ngModel)]="model.role"
+                            name="role"
                         />
                     </div>
                 </form>

@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse8">
         <div class="navbar-nav ml-auto">
             <a href="#" class="nav-item nav-link active">Kanban</a>
-            <a *ngIf="user.roles.includes('admin')" href="#" class="nav-item nav-link">Admin</a>
+            <a *ngIf="user.role.includes('admin')" href="#" class="nav-item nav-link">Admin</a>
             <a href="#" class="nav-item nav-link">Reports</a>
             <a href="#" (click)="logout()" class="nav-item nav-link logout">logout</a>
         </div>

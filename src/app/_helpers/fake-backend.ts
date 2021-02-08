@@ -28,11 +28,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
-        return of(null)
-            .pipe(mergeMap(handleRoute))
-            .pipe(materialize())
-            .pipe(delay(250))
-            .pipe(dematerialize());
+        return of(null).pipe(mergeMap(handleRoute)).pipe(materialize()).pipe(delay(250)).pipe(dematerialize());
 
         function handleRoute() {
             switch (true) {
@@ -57,8 +53,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/authenticate') && method === 'POST':
                     return authenticate();
-                case url.endsWith('/users') && method === 'GET':
-                    return getUsers();
+                case url.endsWith('/getall') && method === 'GET':
+                    return getAllUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 default:
@@ -72,7 +68,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/authenticate') && method === 'POST':
                     return authenticate();
                 case url.endsWith('/users') && method === 'GET':
-                    return getUsers();
+                    return getAllUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 default:
@@ -86,7 +82,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/authenticate') && method === 'POST':
                     return authenticate();
                 case url.endsWith('/users') && method === 'GET':
-                    return getUsers();
+                    return getAllUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 default:
@@ -100,9 +96,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let dec = CryptoJS.Rabbit.decrypt(dat, 'QprU5OzwntBSJFfo6b6XRByY8G8cQELn');
             const tmp = dec.toString(CryptoJS.enc.Utf8);
             const a = tmp.split('.');
-            const results = alasql(
-                `SELECT * FROM users WHERE username='${a[0]}' AND password='${a[1]}'`
-            );
+            const results = alasql(`SELECT * FROM users WHERE username='${a[0]}' AND password='${a[1]}'`);
             if (results.length === 0) {
                 return error('Invalid credentials');
             }
@@ -110,15 +104,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok({
                 id: user.id,
                 username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                roles: user.roles,
+                name: user.name,
+                email: '',
+                role: user.role,
                 token: `dummy-jwt-token.${user.id}`,
             });
         }
 
-        function getUsers() {
-            return ok(this.users);
+        function getAllUsers() {
+            const results = alasql(`SELECT * FROM users`);
+            return ok(
+                results.map((x) => {
+                    return { ...results, token: `dummy-jwt-token.${x.id}` };
+                })
+            );
         }
 
         function getUserById() {
@@ -154,17 +153,33 @@ export const fakeBackendProvider = {
 
 class LoadData {
     loadUsers(): void {
-        alasql(
-            'CREATE TABLE users (id int, username string, password string, firstName string, lastName string, roles string)'
-        );
+        alasql('CREATE TABLE users (id int, username string, name string, email string, password string, role string)');
         for (let i = 0; i < FAKE_USERS.length; i++) {
-            const { id, username, password, firstName, lastName, roles } = FAKE_USERS[i];
-            alasql(
-                `INSERT INTO users VALUES (${id}, '${username}', '${password}', '${firstName}', '${lastName}', '${roles}')`
-            );
+            const { id, username, name, email, password, role } = FAKE_USERS[i];
+            alasql(`INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`);
         }
-        const result = alasql(`SELECT * FROM users`);
-        console.log(result);
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then((response) => response.json())
+            .then((json) => {
+                json.forEach((x, idx) => {
+                    const n = x.name.split(' ');
+                    const { id, username, name, email, password, role } = Object.assign(
+                        {},
+                        {
+                            id: idx + 101,
+                            username: x.username,
+                            name: x.name,
+                            email: `${x.username}@mail.com`,
+                            password: `${x.username}`,
+                            role: 'user',
+                        }
+                    );
+                    alasql(
+                        `INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
+                    );
+                });
+                const result = alasql(`SELECT * FROM users`);
+            });
     }
 
     loadCodes(): void {
@@ -174,7 +189,6 @@ class LoadData {
             alasql(`INSERT INTO code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
         }
         const result = alasql(`SELECT * FROM code`);
-        console.log(result);
     }
 
     loadItems(): void {
@@ -191,7 +205,7 @@ class LoadData {
             closedByUser string,
             closedTimeStamp Date,
             description string,
-            comments string   
+            comments string
         )`);
         for (let i = 0; i < FAKE_ITEMS.length; i++) {
             const {
@@ -210,22 +224,21 @@ class LoadData {
                 comments,
             } = FAKE_ITEMS[i];
             alasql(`INSERT INTO item VALUES (
-                ${id}, 
-                '${projectCode}', 
-                '${priorityCode}', 
-                '${sizeCode}', 
-                '${statusCode}', 
-                '${createdByUser}', 
-                '${createdTimeStamp}', 
-                '${assignedToUser}', 
-                '${assignedTimeStamp}', 
-                '${closedByUser}', 
-                '${closedTimeStamp}', 
-                '${description}', 
+                ${id},
+                '${projectCode}',
+                '${priorityCode}',
+                '${sizeCode}',
+                '${statusCode}',
+                '${createdByUser}',
+                '${createdTimeStamp}',
+                '${assignedToUser}',
+                '${assignedTimeStamp}',
+                '${closedByUser}',
+                '${closedTimeStamp}',
+                '${description}',
                 '${comments}'
             )`);
         }
         const result = alasql(`SELECT * FROM item`);
-        console.log(result);
     }
 }

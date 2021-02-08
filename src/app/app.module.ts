@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { CodesComponent } from './codes/codes.component';
 import { UsersComponent } from './users/users.component';
 
+import { UserService } from './_services/user.service';
+
 @NgModule({
     imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
     declarations: [
@@ -28,6 +30,7 @@ import { UsersComponent } from './users/users.component';
         UsersComponent,
     ],
     providers: [
+        UserService,
         // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         fakeBackendProvider,
