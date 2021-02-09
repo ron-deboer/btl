@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+
 import { IUser } from '../_interfaces/user';
+import { isNumeric } from '../_helpers/utils';
+import { UserService } from '../_services/user.service';
 
 @Component({
     selector: 'app-home',
@@ -8,46 +10,47 @@ import { IUser } from '../_interfaces/user';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    users: BehaviorSubject<[]> = new BehaviorSubject([]);
-    users$: Observable<[]> = this.users.asObservable();
+    loading = true;
+    users: IUser[] = [];
+    model: IUser = null;
 
-    model = {
-        id: 1,
-        username: 'deboerr',
-        name: 'Ron deBoer',
-        email: 'deboerr@mail.com',
-        roles: `admin,user`,
+    USER_CRUD_SPEC = {
+        id: { type: 'text', default: 0 },
+        username: { type: 'text', default: '' },
+        name: { type: 'text', default: '' },
+        email: { type: 'text', default: '' },
+        role: { type: 'select', source: ['admin', 'user'], default: 'user' },
     };
 
-    constructor() {}
+    constructor(private userService: UserService, private cdRef: ChangeDetectorRef) {}
 
     ngOnInit(): void {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then((response) => response.json())
-            .then((json) => {
-                this.users.next(json);
-                console.table(this.users.value);
-            });
+        this.fetchAllUsers().then((resp) => {
+            this.users = resp;
+            console.log('1111', resp[0]);
+            this.loading = false;
+        });
     }
 
+    fetchAllUsers(): Promise<any> {
+        return this.userService.getAll().toPromise();
+    }
+
+    onSubmit() {}
+
     onEditRow(idx: number): void {
+        this.model = {} as IUser;
         if (idx === -1) {
-            this.model = {
-                id: 0,
-                name: '',
-                username: '',
-                email: '',
-                roles: `admin,user`,
-            };
+            Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+                this.model[field] = this.USER_CRUD_SPEC[field].default;
+            });
             return;
         }
-        const dat = this.users.value[idx];
-        this.model = {
-            id: parseInt(dat['id'], 10),
-            name: dat['name'],
-            username: dat['username'],
-            email: dat['email'],
-            roles: `admin,user`,
-        };
+        const dat = this.users.find((x) => x.id === idx);
+        Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
+        });
     }
 }

@@ -1,0 +1,51 @@
+.users-container {
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .title {
+        display: grid;
+        grid-template-columns: 90% auto;
+        .plus {
+            margin-top: 3px;
+            text-align: center;
+        }
+    }
+    .btn-add {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #cfc;
+    }
+    .btn-edit {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #ccf;
+    }
+    .btn-delete {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #fcc;
+    }
+    .icon {
+        height: 20px;
+        width: 20px;
+    }
+    .numeric {
+        text-align: end;
+    }
+}
+#edit {
+    .form-control {
+        color: maroon;
+    }
+    .label {
+        color: #444;
+        margin: 0;
+    }
+    input,
+    select {
+        background-color: #ffe;
+    }
+    .disabled {
+        background-color: #eee;
+    }
+}

@@ -1,23 +1,31 @@
 .page-container {
     width: 50%;
-    margin: 50px auto;
+    margin: 15vh auto;
     display: flex;
     flex-direction: row;
-    min-height: 80vh;
+    min-height: 60vh;
+    font-size: 0.9vw;
     .left-panel {
         display: grid;
         place-items: center;
         width: 50%;
         background: linear-gradient(110deg, #727d7a 60%, #9e8a59 60%);
         color: white;
+        h2 {
+            font-size: 2vw;
+        }
     }
     .right-panel {
         display: grid;
         place-items: center;
         width: 50%;
         background: #ccc;
+
         label {
             color: maroon;
+        }
+        input {
+            font-size: 0.9vw;
         }
         #username,
         #current-password {

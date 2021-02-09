@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { IUser } from '../_interfaces/user';
@@ -10,11 +12,11 @@ import { IUser } from '../_interfaces/user';
 export class UserService {
     constructor(private http: HttpClient) {}
 
-    getAll() {
-        return this.http.get<IUser[]>(`${environment.apiUrl}/users`);
+    getAll(): Observable<IUser[]> {
+        return this.http.get<IUser[]>(`${environment.apiUrl}/user/getall`).pipe(catchError((err) => of(<IUser[]>[])));
     }
 
-    getById(id: number) {
+    getById(id: number): Observable<IUser> {
         return this.http.get<IUser>(`${environment.apiUrl}/users/${id}`);
     }
 }

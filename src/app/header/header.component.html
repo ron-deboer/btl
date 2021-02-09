@@ -6,11 +6,34 @@
         <div class="title-right"></div>
     </div>
     <div class="collapse navbar-collapse" id="navbarCollapse8">
-        <div class="navbar-nav ml-auto">
-            <a href="#" class="nav-item nav-link active">Kanban</a>
-            <a *ngIf="user.roles.includes('admin')" href="#" class="nav-item nav-link">Admin</a>
-            <a href="#" class="nav-item nav-link">Reports</a>
-            <a href="#" (click)="logout()" class="nav-item nav-link logout">logout</a>
-        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a routerLink="/kanban" class="nav-link">Kanban</a>
+            </li>
+            <li class="nav-item dropdown" *ngIf="true || user.role.includes('admin')">
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="adminDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <a routerLink="/users" class="dropdown-item">Users</a>
+                    <a routerLink="/codes" class="dropdown-item">Codes</a>
+                    <a routerLink="/items" class="dropdown-item">Items</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a routerLink="/reports" class="nav-link">Reports</a>
+            </li>
+            <li class="nav-item">
+                <a routerLink="/" (click)="logout()" class="nav-link logout">logout</a>
+            </li>
+        </ul>
     </div>
 </nav>

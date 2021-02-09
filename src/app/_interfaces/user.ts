@@ -6,9 +6,9 @@
 export interface IUser {
     id: number;
     username: string;
+    name: string;
+    email: string;
+    role: ERole;
     password: string;
-    firstName: string;
-    lastName: string;
-    roles: ERole[];
     token?: string;
 }

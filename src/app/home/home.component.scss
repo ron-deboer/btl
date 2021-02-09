@@ -34,8 +34,18 @@
     }
 }
 #edit {
-    .label {
+    .form-control {
         color: maroon;
+    }
+    .label {
+        color: #444;
         margin: 0;
+    }
+    input,
+    select {
+        background-color: #ffe;
+    }
+    .disabled {
+        background-color: #eee;
     }
 }

@@ -2,26 +2,28 @@ import { IUser, ERole } from '../_interfaces/user';
 import { ICode, ECodeType } from '../_interfaces/code';
 import { IItem } from '../_interfaces/item';
 
-export const FAKE_USERS: IUser[] = [
+declare var alasql: any;
+
+const FAKE_USERS: IUser[] = [
     {
         id: 1,
         username: 'admin',
+        name: 'admin',
+        email: 'admin@mail.com',
         password: 'admin',
-        firstName: 'fn-admin',
-        lastName: 'ln-admin',
-        roles: [ERole.Admin, ERole.User],
+        role: ERole.Admin,
     },
     {
         id: 2,
         username: 'user',
+        name: 'user',
+        email: 'user@mail.com',
         password: 'user',
-        firstName: 'fn-user',
-        lastName: 'ln-user',
-        roles: [ERole.User],
+        role: ERole.User,
     },
 ];
 
-export const FAKE_CODES: ICode[] = [
+const FAKE_CODES: ICode[] = [
     // project
     {
         id: 1,
@@ -94,7 +96,7 @@ export const FAKE_CODES: ICode[] = [
     },
 ];
 
-export const FAKE_ITEMS: IItem[] = [
+const FAKE_ITEMS: IItem[] = [
     {
         id: 1,
         projectCode: 'PROJ-1',
@@ -126,3 +128,107 @@ export const FAKE_ITEMS: IItem[] = [
         comments: null,
     },
 ];
+
+export const FakeDataLoader = () => {
+    let loader = new LoadData();
+    loader.loadUsers();
+    loader.loadCodes();
+    loader.loadItems();
+};
+
+class LoadData {
+    loadUsers(): void {
+        alasql(
+            'CREATE TABLE users (id int, username string, name string, email string, password string, role string)'
+        );
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then((response) => response.json())
+            .then((json) => {
+                for (let i = 0; i < FAKE_USERS.length; i++) {
+                    const { id, username, name, email, password, role } = FAKE_USERS[i];
+                    alasql(
+                        `INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
+                    );
+                }
+                json.forEach((x, idx) => {
+                    const n = x.name.split(' ');
+                    const { id, username, name, email, password, role } = Object.assign(
+                        {},
+                        {
+                            id: idx + 101,
+                            username: x.username,
+                            name: x.name,
+                            email: `${x.username}@mail.com`,
+                            password: `${x.username}`,
+                            role: 'user',
+                        }
+                    );
+                    alasql(
+                        `INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
+                    );
+                });
+                const result = alasql(`SELECT * FROM users`);
+                console.log('users >>>', result);
+            });
+    }
+
+    loadCodes(): void {
+        alasql('CREATE TABLE code (id int, codeType string, code string, description string)');
+        for (let i = 0; i < FAKE_CODES.length; i++) {
+            const { id, codeType, code, description } = FAKE_CODES[i];
+            alasql(`INSERT INTO code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
+        }
+        const result = alasql(`SELECT * FROM code`);
+    }
+
+    loadItems(): void {
+        alasql(`CREATE TABLE item (
+            id int,
+            projectCode string,
+            priorityCode string,
+            sizeCode string,
+            statusCode string,
+            createdByUser string,
+            createdTimeStamp Date,
+            assignedToUser string,
+            assignedTimeStamp Date,
+            closedByUser string,
+            closedTimeStamp Date,
+            description string,
+            comments string
+        )`);
+        for (let i = 0; i < FAKE_ITEMS.length; i++) {
+            const {
+                id,
+                projectCode,
+                priorityCode,
+                sizeCode,
+                statusCode,
+                createdByUser,
+                createdTimeStamp,
+                assignedToUser,
+                assignedTimeStamp,
+                closedByUser,
+                closedTimeStamp,
+                description,
+                comments,
+            } = FAKE_ITEMS[i];
+            alasql(`INSERT INTO item VALUES (
+                ${id},
+                '${projectCode}',
+                '${priorityCode}',
+                '${sizeCode}',
+                '${statusCode}',
+                '${createdByUser}',
+                '${createdTimeStamp}',
+                '${assignedToUser}',
+                '${assignedTimeStamp}',
+                '${closedByUser}',
+                '${closedTimeStamp}',
+                '${description}',
+                '${comments}'
+            )`);
+        }
+        const result = alasql(`SELECT * FROM item`);
+    }
+}
