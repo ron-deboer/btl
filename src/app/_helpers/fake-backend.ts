@@ -93,7 +93,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const tmp = dec.toString(CryptoJS.enc.Utf8);
             const a = tmp.split('.');
             const results = alasql(
-                `SELECT * FROM users WHERE username='${a[0]}' AND password='${a[1]}'`
+                `SELECT * FROM db.users WHERE username='${a[0]}' AND password='${a[1]}'`
             );
             if (results.length === 0) {
                 return error('Invalid credentials');
@@ -110,7 +110,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function getAllUsers() {
-            const results = alasql(`SELECT * FROM users`);
+            const results = alasql(`SELECT * FROM db.users`);
             results.forEach((x) => {
                 x.token = `dummy-jwt-token.${x.id}`;
             });

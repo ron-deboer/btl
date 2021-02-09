@@ -1,7 +1,6 @@
 .home-container {
     max-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     .title {
         display: grid;
         grid-template-columns: 90% auto;
@@ -48,4 +47,29 @@
     .disabled {
         background-color: #eee;
     }
+}
+
+:host ::ng-deep .ngx-datatable .datatable-body {
+    max-height: calc(100vh - 140px) !important;
+    overflow: hidden auto;
+}
+
+:host ::ng-deep .datatable-header-cell {
+    padding: 5px 0px !important;
+    margin: 0px !important;
+    background-color: #ffc !important;
+    border-bottom: 1px solid #888 !important;
+}
+
+:host ::ng-deep .datatable-body-cell:first-child {
+    text-align: left;
+}
+
+:host ::ng-deep .datatable-row-even {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .datatable-body-cell {
+    padding: 0px !important;
+    margin: 0px !important;
 }

@@ -132,22 +132,36 @@ const FAKE_ITEMS: IItem[] = [
 export const FakeDataLoader = () => {
     let loader = new LoadData();
     loader.loadUsers();
-    loader.loadCodes();
-    loader.loadItems();
+    if (!loader.exists) {
+        loader.loadCodes();
+        loader.loadItems();
+    }
 };
 
 class LoadData {
-    loadUsers(): void {
-        alasql(
-            'CREATE TABLE users (id int, username string, name string, email string, password string, role string)'
-        );
+    exists = false;
+    constructor() {
+        alasql('CREATE localStorage DATABASE IF NOT EXISTS Demo');
+        alasql('ATTACH localStorage DATABASE Demo AS db');
+    }
+    loadUsers(): boolean {
+        try {
+            alasql(
+                'CREATE TABLE db.users (id int, username string, name string, email string, password string, role string)'
+            );
+        } catch (e) {
+            this.exists = true;
+        }
+        if (this.exists) {
+            return;
+        }
         fetch('https://jsonplaceholder.typicode.com/users')
             .then((response) => response.json())
             .then((json) => {
                 for (let i = 0; i < FAKE_USERS.length; i++) {
                     const { id, username, name, email, password, role } = FAKE_USERS[i];
                     alasql(
-                        `INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
+                        `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
                     );
                 }
                 json.forEach((x, idx) => {
@@ -164,25 +178,24 @@ class LoadData {
                         }
                     );
                     alasql(
-                        `INSERT INTO users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
+                        `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${password}', '${role}')`
                     );
                 });
-                const result = alasql(`SELECT * FROM users`);
-                console.log('users >>>', result);
+                const result = alasql(`SELECT * FROM db.users`);
             });
     }
 
     loadCodes(): void {
-        alasql('CREATE TABLE code (id int, codeType string, code string, description string)');
+        alasql('CREATE TABLE db.code (id int, codeType string, code string, description string)');
         for (let i = 0; i < FAKE_CODES.length; i++) {
             const { id, codeType, code, description } = FAKE_CODES[i];
-            alasql(`INSERT INTO code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
+            alasql(`INSERT INTO db.code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
         }
-        const result = alasql(`SELECT * FROM code`);
+        const result = alasql(`SELECT * FROM db.code`);
     }
 
     loadItems(): void {
-        alasql(`CREATE TABLE item (
+        alasql(`CREATE TABLE db.item (
             id int,
             projectCode string,
             priorityCode string,
@@ -213,7 +226,7 @@ class LoadData {
                 description,
                 comments,
             } = FAKE_ITEMS[i];
-            alasql(`INSERT INTO item VALUES (
+            alasql(`INSERT INTO db.item VALUES (
                 ${id},
                 '${projectCode}',
                 '${priorityCode}',
@@ -229,6 +242,6 @@ class LoadData {
                 '${comments}'
             )`);
         }
-        const result = alasql(`SELECT * FROM item`);
+        const result = alasql(`SELECT * FROM db.item`);
     }
 }
