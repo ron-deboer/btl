@@ -24,7 +24,6 @@ export class MsgService {
 
     broadcast(eventType: EventType, data?: any): void {
         this.eventBus.next({ eventType, data });
-        console.log(EventType[eventType], '>>>', data);
     }
 
     on<T>(eventType: EventType): Observable<T> {

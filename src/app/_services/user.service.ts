@@ -19,4 +19,8 @@ export class UserService {
     getById(id: number): Observable<IUser> {
         return this.http.get<IUser>(`${environment.apiUrl}/users/${id}`);
     }
+
+    updateUser(data: IUser): Observable<void> {
+        return this.http.post<void>(`${environment.apiUrl}/user/update`, data);
+    }
 }

@@ -4,6 +4,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
 import { FakeDataLoader } from '../_helpers/fake-data';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -16,10 +18,15 @@ export class LoginComponent implements OnInit {
         password: new FormControl('user'),
     });
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private toastr: ToastrService) {}
 
     ngOnInit(): void {
         FakeDataLoader();
+        setTimeout(() => {
+            this.toastr.info('user/user or admin/admin', 'Login', {
+                timeOut: 6000,
+            });
+        }, 0);
     }
 
     onSubmit(): void {
