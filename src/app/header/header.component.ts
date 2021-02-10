@@ -14,7 +14,11 @@ export class HeaderComponent implements OnInit {
     user: IUser = null;
     private subscriptions: Subscription = new Subscription();
 
-    constructor(private msgService: MsgService, private authService: AuthService, private cdRef: ChangeDetectorRef) {}
+    constructor(
+        private msgService: MsgService,
+        private authService: AuthService,
+        private cdRef: ChangeDetectorRef
+    ) {}
 
     ngOnInit(): void {
         this.getSessionData();
@@ -31,6 +35,7 @@ export class HeaderComponent implements OnInit {
     }
 
     logout(): void {
+        this.user = null;
         this.authService.logout();
     }
 }
