@@ -1,20 +1,25 @@
 .bg-custom {
+    margin-top: 2px;
     background: linear-gradient(110deg, #727d7a 60%, #9e8a59 60%);
-}
-.title {
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    color: white;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    .title-left {
+    .dropdown-menu {
+        background-color: #a96;
+        font-size: 1.75vh;
     }
-    .title-center {
-        text-transform: uppercase;
+    .dropdown-item {
+        color: white;
     }
-    .title-right {
+    .dropdown-item:hover {
+        color: #788;
     }
-}
-.logout {
+    .title {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        color: white;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        .title-center {
+            text-transform: uppercase;
+        }
+    }
 }

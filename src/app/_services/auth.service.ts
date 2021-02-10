@@ -55,7 +55,7 @@ export class AuthService {
         this.user = null;
         this.authenticated = false;
         this.redirectUrl = '/';
-        this.router.navigate([this.redirectUrl]);
+        this.router.navigate(['/login']);
     }
 
     isAuthenticated(): boolean {

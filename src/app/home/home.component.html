@@ -1,8 +1,14 @@
 <div class="home-container">
     <div class="title">
         <h4>Kanban Board</h4>
-        <div class="plus">
-            <button class="btn-add" data-title="Add" data-toggle="modal" data-target="#edit" (click)="onEditRow(-1)">
+        <div class="plus" data-toggle="tooltip" data-placement="right" title="Add User">
+            <button
+                class="btn-add"
+                data-title="Add"
+                data-toggle="modal"
+                data-target="#edit"
+                (click)="onEditRow(-1)"
+            >
                 <i class="fa fa-plus fa-xs"></i>
             </button>
         </div>
@@ -23,31 +29,40 @@
                 name="Id"
                 prop="id"
                 [cellClass]="'id'"
-                [width]="10"
+                [width]="30"
                 [frozenLeft]="true"
             ></ngx-datatable-column>
             <ngx-datatable-column name="User Name" prop="username"></ngx-datatable-column>
-            <ngx-datatable-column name="Full Name" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column name="Email" prop="email"></ngx-datatable-column>
+            <ngx-datatable-column name="Full Name" prop="name" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
             <ngx-datatable-column name="Role" prop="role"></ngx-datatable-column>
             <ngx-datatable-column name="Edit" prop="id">
                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    <button
-                        class="btn-edit"
-                        data-title="Edit"
-                        data-toggle="modal"
-                        data-target="#edit"
-                        (click)="onEditRow(value)"
-                    >
-                        <i class="fa fa-pencil fa-xs"></i>
-                    </button>
+                    <div data-toggle="tooltip" data-placement="right" title="Edit User">
+                        <button
+                            class="btn-edit"
+                            data-title="Edit"
+                            data-toggle="modal"
+                            data-target="#edit"
+                            (click)="onEditRow(value)"
+                        >
+                            <i class="fa fa-pencil fa-xs"></i>
+                        </button>
+                    </div>
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Delete" prop="id">
                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    <button class="btn-delete" data-title="Delete" data-toggle="modal" data-target="#delete">
-                        <i class="fa fa-trash fa-xs"></i>
-                    </button>
+                    <div data-toggle="tooltip" data-placement="right" title="Delete User">
+                        <button
+                            class="btn-delete"
+                            data-title="Delete"
+                            data-toggle="modal"
+                            data-target="#delete"
+                        >
+                            <i class="fa fa-trash fa-xs"></i>
+                        </button>
+                    </div>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>
@@ -92,7 +107,6 @@
                             class="form-control input-sm"
                             id="username"
                             name="username"
-                            placeholder="User Name"
                             [(ngModel)]="model.username"
                         />
                     </div>
@@ -103,7 +117,6 @@
                             class="form-control input-sm"
                             id="name"
                             name="name"
-                            placeholder="Full Name"
                             [(ngModel)]="model.name"
                         />
                     </div>
@@ -114,7 +127,6 @@
                             class="form-control input-sm"
                             id="email"
                             name="email"
-                            placeholder="Email"
                             [(ngModel)]="model.email"
                         />
                     </div>
@@ -128,7 +140,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button #closeButton type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button
+                        #closeButton
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
