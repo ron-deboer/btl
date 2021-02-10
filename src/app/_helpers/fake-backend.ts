@@ -10,6 +10,7 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
+import { IUser } from '../_interfaces/user';
 
 declare var alasql: any;
 
@@ -19,7 +20,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
-
         return of(null)
             .pipe(mergeMap(handleRoute))
             .pipe(materialize())
@@ -43,52 +43,35 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     break;
             }
         }
-
-        // user route handler
+        /**
+         * user route handler
+         */
         function handleUserRoute(url: string, method: string) {
             switch (true) {
                 case url.endsWith('/authenticate') && method === 'POST':
-                    return authenticate();
+                    return authenticate(body.dat);
+                    break;
+                case url.endsWith('/update') && method === 'POST':
+                    return updateUser(body);
+                    break;
+                case url.endsWith('/insert') && method === 'POST':
+                    return insertUser(body);
+                    break;
                 case url.endsWith('/getall') && method === 'GET':
                     return getAllUsers();
+                    break;
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
+                    break;
                 default:
-                    // pass through any requests not handled above
                     return next.handle(request);
+                    break;
             }
         }
-        // code route handler
-        function handleCodeRoute(url: string, method: string) {
-            switch (true) {
-                case url.endsWith('/authenticate') && method === 'POST':
-                    return authenticate();
-                case url.endsWith('/users') && method === 'GET':
-                    return getAllUsers();
-                case url.match(/\/users\/\d+$/) && method === 'GET':
-                    return getUserById();
-                default:
-                    // pass through any requests not handled above
-                    return next.handle(request);
-            }
-        }
-        // item route handler
-        function handleItemRoute(url: string, method: string) {
-            switch (true) {
-                case url.endsWith('/authenticate') && method === 'POST':
-                    return authenticate();
-                case url.endsWith('/users') && method === 'GET':
-                    return getAllUsers();
-                case url.match(/\/users\/\d+$/) && method === 'GET':
-                    return getUserById();
-                default:
-                    // pass through any requests not handled above
-                    return next.handle(request);
-            }
-        }
-        // route functions
-        function authenticate() {
-            const { dat } = body;
+        /**
+         * authenticate user
+         */
+        function authenticate(dat: any) {
             let dec = CryptoJS.Rabbit.decrypt(dat, 'QprU5OzwntBSJFfo6b6XRByY8G8cQELn');
             const tmp = dec.toString(CryptoJS.enc.Utf8);
             const a = tmp.split('.');
@@ -108,7 +91,39 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 token: `dummy-jwt-token.${user.id}`,
             });
         }
-
+        /**
+         * update existing user
+         */
+        function updateUser(dat: IUser) {
+            let sql = `UPDATE db.users SET `;
+            Object.keys(dat).forEach((fld) => {
+                if (fld !== 'id') {
+                    sql += `${fld}='${dat[fld]}', `;
+                }
+            });
+            sql = sql.slice(0, -2) + ` WHERE id=${dat.id};`;
+            // console.log('updatesql >>>', sql);
+            const results = alasql(sql);
+            return ok({});
+        }
+        /**
+         * insert new user
+         */
+        function insertUser(dat: IUser) {
+            let sql = `INSERT INTO db.users VALUES (${dat.id}, `;
+            Object.keys(dat).forEach((fld) => {
+                if (fld !== 'id') {
+                    sql += `'${dat[fld]}', `;
+                }
+            });
+            sql = sql.slice(0, -2) + `);`;
+            // console.log('insertsql >>>', sql);
+            const results = alasql(sql);
+            return ok({});
+        }
+        /**
+         * get all users
+         */
         function getAllUsers() {
             const results = alasql(`SELECT * FROM db.users`);
             results.forEach((x) => {
@@ -116,13 +131,48 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             });
             return ok(results);
         }
-
+        /**
+         * get user by id
+         */
         function getUserById() {
             const user = this.users.find((x) => x.id === idFromUrl());
             return ok(user);
         }
-
-        // util functions
+        /**
+         * code route handler
+         */
+        function handleCodeRoute(url: string, method: string) {
+            switch (true) {
+                // case url.endsWith('/users') && method === 'GET':
+                //     return getAllUsers();
+                //     break;
+                // case url.match(/\/users\/\d+$/) && method === 'GET':
+                //     return getUserById();
+                //     break;
+                default:
+                    return next.handle(request);
+                    break;
+            }
+        }
+        /**
+         * item route handler
+         */
+        function handleItemRoute(url: string, method: string) {
+            switch (true) {
+                // case url.endsWith('/users') && method === 'GET':
+                //     return getAllUsers();
+                //     break;
+                // case url.match(/\/users\/\d+$/) && method === 'GET':
+                //     return getUserById();
+                //     break;
+                default:
+                    return next.handle(request);
+                    break;
+            }
+        }
+        /**
+         * util functions
+         */
         function ok(body) {
             return of(new HttpResponse({ status: 200, body }));
         }
