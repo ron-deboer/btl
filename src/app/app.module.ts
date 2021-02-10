@@ -34,7 +34,7 @@ import { DatePipe } from '@angular/common';
         BrowserAnimationsModule,
         ToastrModule.forRoot({
             timeOut: 3000,
-            positionClass: 'toast-top-right',
+            positionClass: 'toast-bottom-right',
             preventDuplicates: true,
         }),
     ],

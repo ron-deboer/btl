@@ -23,4 +23,8 @@ export class UserService {
     updateUser(data: IUser): Observable<void> {
         return this.http.post<void>(`${environment.apiUrl}/user/update`, data);
     }
+
+    insertUser(data: IUser): Observable<void> {
+        return this.http.post<void>(`${environment.apiUrl}/user/insert`, data);
+    }
 }

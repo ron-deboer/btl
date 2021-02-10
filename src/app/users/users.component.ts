@@ -1,4 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IUser } from '../_interfaces/user';
 import { isNumeric } from '../_helpers/utils';
@@ -21,6 +28,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
         name: { type: 'text', default: '' },
         email: { type: 'text', default: '' },
         role: { type: 'select', source: ['admin', 'user'], default: 'user' },
+        password: { type: 'text', default: '' },
+        token: { type: 'text', default: '' },
     };
 
     constructor(
@@ -50,11 +59,18 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
     onSubmit(closeButton) {
         console.log(this.model);
-        const idx = this.users.findIndex((x) => x.id === this.model.id);
-        let dat = this.users[idx];
-        Object.keys(this.model).forEach((fld) => {
-            dat[fld] = this.model[fld];
-        });
+        if (this.model.id > 0) {
+            const idx = this.users.findIndex((x) => x.id === this.model.id);
+            this.users[idx] = Object.assign({}, this.model);
+            this.userService.updateUser(this.model).toPromise();
+        } else {
+            this.model.id = this.users.sort((a, b) => (a.id < b.id ? 1 : -1))[0].id + 2;
+            this.model.password = this.model.username;
+            this.userService.insertUser(this.model).toPromise();
+        }
+        this.users = Object.assign([], this.users);
+        console.table(this.users);
+
         this.toastr.success('Updated Ok!', 'User', {
             timeOut: 3000,
         });
@@ -67,11 +83,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
             Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
                 this.model[field] = this.USER_CRUD_SPEC[field].default;
             });
+            this.model.id = 0;
             return;
         }
         const dat = this.users.find((x) => x.id === idx);
         Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
-            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
         });
     }
 }
