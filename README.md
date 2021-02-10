@@ -2,6 +2,6 @@
 
 Bug Tracker Light
 
-Demo Angular-10 Application
+Angular-10 Application (demo url: https://ron-deboer.github.io/btl)
 
 Copyright 2021 - Ron deBoer - Melbourne - Australia
