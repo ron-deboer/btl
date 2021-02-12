@@ -87,7 +87,7 @@
     <div class="modal-dialog" role="document">
         <form
             #itemform="ngForm"
-            (ngSubmit)="itemform.form.valid && onSubmit(itemform, closeButton)"
+            (ngSubmit)="itemform.form.valid && onSubmit(closeButton)"
             class="needs-validation"
         >
             <div class="modal-content">
