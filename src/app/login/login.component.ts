@@ -14,8 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
     error = ' ';
     public loginForm: FormGroup = new FormGroup({
-        username: new FormControl('user'),
-        password: new FormControl('user'),
+        username: new FormControl('admin'),
+        password: new FormControl('admin'),
     });
 
     constructor(private authService: AuthService, private toastr: ToastrService) {}

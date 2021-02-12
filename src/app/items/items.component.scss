@@ -1,4 +1,4 @@
-.users-container {
+.items-container {
     max-height: 100%;
     overflow: hidden;
     .title {
@@ -40,15 +40,27 @@
     }
 }
 #edit {
-    .form-control {
-        color: maroon;
+    font-size: 0.75vw;
+    .controlrow {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    }
+    .form-group {
+        padding: 0;
+        margin: 8px 0px 0px 0px;
     }
     .label {
         color: #444;
-        margin: 0;
+        margin: 2px 0px;
+    }
+    .form-control {
+        color: maroon;
     }
     input,
+    textarea,
     select {
+        padding: 2px;
         background-color: #ffe;
     }
     .disabled {
@@ -79,4 +91,7 @@
 :host ::ng-deep .datatable-body-cell {
     padding: 0px !important;
     margin: 0px !important;
+}
+.isinvalid {
+    border: 2px solid #fcc;
 }

@@ -11,6 +11,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import { IUser } from '../_interfaces/user';
+import { ICode } from '../_interfaces/code';
 
 declare var alasql: any;
 
@@ -47,21 +48,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
          * user route handler
          */
         function handleUserRoute(url: string, method: string) {
+            const dtype = 'users';
             switch (true) {
                 case url.endsWith('/authenticate') && method === 'POST':
                     return authenticate(body.dat);
                     break;
                 case url.endsWith('/update') && method === 'POST':
-                    return updateUser(body);
+                    return doUpdate(body, dtype);
                     break;
                 case url.endsWith('/insert') && method === 'POST':
-                    return insertUser(body);
+                    return doInsert(body, dtype);
                     break;
                 case url.endsWith('/getall') && method === 'GET':
-                    return getAllUsers();
+                    return doGetAll(dtype);
                     break;
                 case url.match(/\/users\/\d+$/) && method === 'GET':
-                    return getUserById();
+                    return doGetById(dtype);
                     break;
                 default:
                     return next.handle(request);
@@ -92,10 +94,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             });
         }
         /**
-         * update existing user
+         * update existing row
          */
-        function updateUser(dat: IUser) {
-            let sql = `UPDATE db.users SET `;
+        function doUpdate(dat: any, dtype: string) {
+            let sql = `UPDATE db.${dtype} SET `;
             Object.keys(dat).forEach((fld) => {
                 if (fld !== 'id') {
                     sql += `${fld}='${dat[fld]}', `;
@@ -107,25 +109,25 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok({});
         }
         /**
-         * insert new user
+         * insert new row
          */
-        function insertUser(dat: IUser) {
-            let sql = `INSERT INTO db.users VALUES (${dat.id}, `;
+        function doInsert(dat: any, dtype: string) {
+            let sql = `INSERT INTO db.${dtype} VALUES (${dat.id}, `;
             Object.keys(dat).forEach((fld) => {
                 if (fld !== 'id') {
                     sql += `'${dat[fld]}', `;
                 }
             });
             sql = sql.slice(0, -2) + `);`;
-            // console.log('insertsql >>>', sql);
+            console.log('insertsql >>>', sql);
             const results = alasql(sql);
             return ok({});
         }
         /**
          * get all users
          */
-        function getAllUsers() {
-            const results = alasql(`SELECT * FROM db.users`);
+        function doGetAll(dtype: string) {
+            const results = alasql(`SELECT * FROM db.${dtype}`);
             results.forEach((x) => {
                 x.token = `dummy-jwt-token.${x.id}`;
             });
@@ -134,7 +136,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         /**
          * get user by id
          */
-        function getUserById() {
+        function doGetById(dtype: string) {
             const user = this.users.find((x) => x.id === idFromUrl());
             return ok(user);
         }
@@ -142,13 +144,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
          * code route handler
          */
         function handleCodeRoute(url: string, method: string) {
+            const dtype = 'code';
             switch (true) {
-                // case url.endsWith('/users') && method === 'GET':
-                //     return getAllUsers();
-                //     break;
-                // case url.match(/\/users\/\d+$/) && method === 'GET':
-                //     return getUserById();
-                //     break;
+                case url.endsWith('/update') && method === 'POST':
+                    return doUpdate(body, dtype);
+                    break;
+                case url.endsWith('/insert') && method === 'POST':
+                    return doInsert(body, dtype);
+                    break;
+                case url.endsWith('/getall') && method === 'GET':
+                    return doGetAll(dtype);
+                    break;
+                case url.match(/\/codes\/\d+$/) && method === 'GET':
+                    return doGetById(dtype);
+                    break;
                 default:
                     return next.handle(request);
                     break;
@@ -158,13 +167,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
          * item route handler
          */
         function handleItemRoute(url: string, method: string) {
+            const dtype = 'item';
             switch (true) {
-                // case url.endsWith('/users') && method === 'GET':
-                //     return getAllUsers();
-                //     break;
-                // case url.match(/\/users\/\d+$/) && method === 'GET':
-                //     return getUserById();
-                //     break;
+                case url.endsWith('/update') && method === 'POST':
+                    return doUpdate(body, dtype);
+                    break;
+                case url.endsWith('/insert') && method === 'POST':
+                    return doInsert(body, dtype);
+                    break;
+                case url.endsWith('/getall') && method === 'GET':
+                    return doGetAll(dtype);
+                    break;
+                case url.match(/\/codes\/\d+$/) && method === 'GET':
+                    return doGetById(dtype);
+                    break;
                 default:
                     return next.handle(request);
                     break;

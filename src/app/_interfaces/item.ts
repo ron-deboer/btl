@@ -1,16 +1,17 @@
 ﻿import { ICode, ECodeType } from '../_interfaces/code';
 export interface IItem {
     id: number;
-    projectCode: string;
-    priorityCode: string;
-    sizeCode: string;
-    statusCode: string;
-    createdByUser: string;
-    createdTimeStamp: Date;
-    assignedToUser: string;
-    assignedTimeStamp: Date;
-    closedByUser: string;
-    closedTimeStamp: Date;
+    boardcode: ECodeType.Board;
+    projectcode: ECodeType.Project;
+    prioritycode: ECodeType.Priority;
+    sizecode: ECodeType.Size;
+    statuscode: ECodeType.Status;
+    createdbyuser: string;
+    createdtimestamp: string;
+    assignedtouser: string;
+    assignedtimestamp: string;
+    closedbyuser: string;
+    closedtimestamp: string;
     description: string;
     comments: string;
 }

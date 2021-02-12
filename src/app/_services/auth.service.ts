@@ -16,7 +16,13 @@ export class AuthService {
     authenticated = false;
     redirectUrl: string = '/';
 
-    constructor(private router: Router, private http: HttpClient, private msgService: MsgService) {}
+    constructor(private router: Router, private http: HttpClient, private msgService: MsgService) {
+        const userStr = sessionStorage.getItem('user');
+        if (Boolean(userStr)) {
+            this.user = JSON.parse(userStr);
+            this.authenticated = true;
+        }
+    }
 
     setRedirectUrl(url: string): void {
         if (url !== '/login') {
