@@ -118,14 +118,11 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     }
 
     onEditRow(idx: number): void {
-        this.model = {} as IItem;
+        this.initModel();
         if (idx === -1) {
             Object.keys(this.ITEM_CRUD_SPEC).forEach((field) => {
                 this.model[field] = this.ITEM_CRUD_SPEC[field].default;
             });
-            this.model.id = 0;
-            this.model.createdtimestamp = new Date().toISOString();
-            this.model.createdbyuser = this.user.username;
             return;
         }
         const dat = this.items.find((x) => x.id === idx);
@@ -152,8 +149,10 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     onSubmit(closeButton) {
         let err = '';
         Object.keys(this.model).forEach((fld) => {
-            if (this.checkIfInvalid(fld)) {
-                err = `${fld} is required`;
+            if (fld !== 'id' && this.ITEM_CRUD_SPEC.hasOwnProperty(fld)) {
+                if (this.checkIfInvalid(fld)) {
+                    err = `${fld} is required`;
+                }
             }
         });
         if (err !== '') {
@@ -181,6 +180,25 @@ export class ItemsComponent implements OnInit, AfterViewInit {
 
         closeButton.click();
         return true;
+    }
+
+    initModel() {
+        this.model = <IItem>{
+            id: 0,
+            boardcode: '' as ECodeType.Board,
+            projectcode: '' as ECodeType.Project,
+            prioritycode: '' as ECodeType.Priority,
+            sizecode: '' as ECodeType.Size,
+            statuscode: '' as ECodeType.Status,
+            createdbyuser: this.user.username,
+            createdtimestamp: new Date().toISOString(),
+            assignedtouser: '',
+            assignedtimestamp: '',
+            closedbyuser: '',
+            closedtimestamp: '',
+            description: '',
+            comments: '',
+        };
     }
 
     checkIfInvalid(fld) {
