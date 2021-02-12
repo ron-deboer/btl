@@ -1,17 +1,18 @@
 ﻿export enum ECodeType {
-    Project = 'project',
-    Priority = 'priority',
-    Size = 'size',
-    Status = 'status',
-    Stage = 'stage',
-    Column = 'column',
-    Tag = 'tag',
-    Team = 'team',
+    Board = 'BOARD',
+    Project = 'PROJECT',
+    Priority = 'PRIORITY',
+    Size = 'SIZE',
+    Status = 'STATUS',
+    Stage = 'STAGE',
+    Column = 'COLUMN',
+    Tag = 'TAG',
+    Team = 'TEAM',
 }
 
 export interface ICode {
     id: number;
-    codeType: ECodeType;
+    codetype: ECodeType;
     code: string;
     description: string;
 }

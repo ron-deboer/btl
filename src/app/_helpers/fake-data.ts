@@ -8,7 +8,7 @@ const FAKE_USERS: IUser[] = [
     {
         id: 1,
         username: 'admin',
-        name: 'admin',
+        name: 'Admin User',
         email: 'admin@mail.com',
         password: 'admin',
         role: ERole.Admin,
@@ -16,81 +16,132 @@ const FAKE_USERS: IUser[] = [
     {
         id: 2,
         username: 'user',
-        name: 'user',
+        name: 'Regular User',
         email: 'user@mail.com',
         password: 'user',
+        role: ERole.User,
+    },
+    {
+        id: 3,
+        username: 'luker',
+        name: 'Luke Rogers',
+        email: 'luker@mail.com',
+        password: 'luker',
+        role: ERole.User,
+    },
+    {
+        id: 4,
+        username: 'gailp',
+        name: 'Gail Parsons',
+        email: 'gailp@mail.com',
+        password: 'gailp',
+        role: ERole.User,
+    },
+    {
+        id: 5,
+        username: 'patches',
+        name: 'Patches the Whippet',
+        email: 'patches@mail.com',
+        password: 'patches',
+        role: ERole.User,
+    },
+    {
+        id: 6,
+        username: 'belladb',
+        name: 'Bella deBoer',
+        email: 'belladb@mail.com',
+        password: 'belladb',
         role: ERole.User,
     },
 ];
 
 const FAKE_CODES: ICode[] = [
-    // project
+    // kanban board
     {
         id: 1,
-        codeType: ECodeType.Project,
+        codetype: ECodeType.Board,
+        code: 'BOARD-1',
+        description: 'Kanban Board 1',
+    },
+    {
+        id: 2,
+        codetype: ECodeType.Board,
+        code: 'BOARD-2',
+        description: 'Kanban Board 2',
+    },
+    // project
+    {
+        id: 3,
+        codetype: ECodeType.Project,
         code: 'PROJ-1',
         description: 'Project 1',
     },
     {
-        id: 2,
-        codeType: ECodeType.Project,
+        id: 4,
+        codetype: ECodeType.Project,
         code: 'PROJ-2',
         description: 'Project 2',
     },
     // priority
     {
-        id: 3,
-        codeType: ECodeType.Priority,
+        id: 5,
+        codetype: ECodeType.Priority,
         code: 'High',
         description: 'High Priority',
     },
     {
-        id: 4,
-        codeType: ECodeType.Priority,
+        id: 6,
+        codetype: ECodeType.Priority,
         code: 'Medium',
         description: 'Medium Priority',
     },
     {
-        id: 5,
-        codeType: ECodeType.Priority,
+        id: 7,
+        codetype: ECodeType.Priority,
         code: 'Low',
         description: 'Low Priority',
     },
     // status
     {
-        id: 6,
-        codeType: ECodeType.Status,
+        id: 8,
+        codetype: ECodeType.Status,
         code: 'Open',
         description: 'Open',
     },
     {
-        id: 7,
-        codeType: ECodeType.Status,
+        id: 9,
+        codetype: ECodeType.Status,
         code: 'Assigned',
         description: 'Assigned',
     },
     {
-        id: 8,
-        codeType: ECodeType.Status,
+        id: 10,
+        codetype: ECodeType.Status,
+        code: 'QA',
+        description: 'In QA',
+    },
+    {
+        id: 20,
+        codetype: ECodeType.Status,
         code: 'Closed',
         description: 'Closed',
     },
     // size
     {
-        id: 9,
-        codeType: ECodeType.Size,
+        id: 21,
+        codetype: ECodeType.Size,
         code: 'Small',
         description: 'Small',
     },
     {
-        id: 10,
-        codeType: ECodeType.Size,
+        id: 22,
+        codetype: ECodeType.Size,
         code: 'Medium',
         description: 'Medium',
     },
     {
-        id: 11,
-        codeType: ECodeType.Size,
+        id: 23,
+        codetype: ECodeType.Size,
         code: 'Large',
         description: 'Large',
     },
@@ -99,149 +150,131 @@ const FAKE_CODES: ICode[] = [
 const FAKE_ITEMS: IItem[] = [
     {
         id: 1,
-        projectCode: 'PROJ-1',
-        priorityCode: 'High',
-        sizeCode: 'Medium',
-        statusCode: 'Open',
-        createdByUser: 'user',
-        createdTimeStamp: new Date(),
-        assignedToUser: null,
-        assignedTimeStamp: null,
-        closedByUser: null,
-        closedTimeStamp: null,
+        boardcode: 'BOARD-1' as ECodeType.Board,
+        projectcode: 'PROJ-1' as ECodeType.Project,
+        prioritycode: 'High' as ECodeType.Priority,
+        sizecode: 'Medium' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'user',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: 'luker',
+        assignedtimestamp: new Date().toISOString(),
+        closedbyuser: '',
+        closedtimestamp: '',
         description: 'Test item 1',
-        comments: null,
+        comments: '',
     },
     {
         id: 2,
-        projectCode: 'PROJ-1',
-        priorityCode: 'Medium',
-        sizeCode: 'Small',
-        statusCode: 'Open',
-        createdByUser: 'admin',
-        createdTimeStamp: new Date(),
-        assignedToUser: null,
-        assignedTimeStamp: null,
-        closedByUser: null,
-        closedTimeStamp: null,
+        boardcode: 'BOARD-2' as ECodeType.Board,
+        projectcode: 'PROJ-2' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Low' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: '',
+        assignedtimestamp: '',
+        closedbyuser: '',
+        closedtimestamp: '',
         description: 'Test item 2',
-        comments: null,
+        comments: '',
     },
 ];
 
 export const FakeDataLoader = () => {
     let loader = new LoadData();
     loader.loadUsers();
-    if (!loader.exists) {
+    if (loader.newDataSet) {
         loader.loadCodes();
         loader.loadItems();
     }
 };
 
 class LoadData {
-    exists = false;
-    constructor() {
-        alasql('CREATE localStorage DATABASE IF NOT EXISTS db');
-        alasql('ATTACH localStorage DATABASE db');
-    }
-    loadUsers(): boolean {
+    newDataSet = false;
+    constructor() {}
+
+    loadUsers(): void {
         try {
             alasql(
                 'CREATE TABLE db.users (id int, username string, name string, email string, password string, role string, token string)'
             );
         } catch (e) {
-            this.exists = true;
-        }
-        if (this.exists) {
             return;
         }
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then((response) => response.json())
-            .then((json) => {
-                for (let i = 0; i < FAKE_USERS.length; i++) {
-                    const { id, username, name, email, password, role } = FAKE_USERS[i];
-                    alasql(
-                        `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${role}', '${password}',  '')`
-                    );
-                }
-                json.forEach((x, idx) => {
-                    const n = x.name.split(' ');
-                    const { id, username, name, email, password, role } = Object.assign(
-                        {},
-                        {
-                            id: idx + 101,
-                            username: x.username,
-                            name: x.name,
-                            email: `${x.username}@mail.com`,
-                            password: `${x.username}`,
-                            role: 'user',
-                        }
-                    );
-                    alasql(
-                        `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${role}', '${password}', '')`
-                    );
-                });
-                const result = alasql(`SELECT * FROM db.users`);
-            });
+        for (let i = 0; i < FAKE_USERS.length; i++) {
+            const { id, username, name, email, password, role } = FAKE_USERS[i];
+            alasql(
+                `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${role}', '${password}',  '')`
+            );
+        }
+        this.newDataSet = true;
+        const result = alasql(`SELECT * FROM db.users`);
     }
 
     loadCodes(): void {
-        alasql('CREATE TABLE code (id int, codeType string, code string, description string)');
+        alasql('CREATE TABLE db.code (id int, codetype string, code string, description string)');
         for (let i = 0; i < FAKE_CODES.length; i++) {
-            const { id, codeType, code, description } = FAKE_CODES[i];
-            alasql(`INSERT INTO code VALUES (${id}, '${codeType}', '${code}', '${description}')`);
+            const { id, codetype, code, description } = FAKE_CODES[i];
+            alasql(
+                `INSERT INTO db.code VALUES (${id}, '${codetype}', '${code}', '${description}')`
+            );
         }
-        const result = alasql(`SELECT * FROM code`);
+        const result = alasql(`SELECT * FROM db.code`);
     }
 
     loadItems(): void {
-        alasql(`CREATE TABLE item (
+        alasql(`CREATE TABLE db.item (
             id int,
-            projectCode string,
-            priorityCode string,
-            sizeCode string,
-            statusCode string,
-            createdByUser string,
-            createdTimeStamp Date,
-            assignedToUser string,
-            assignedTimeStamp Date,
-            closedByUser string,
-            closedTimeStamp Date,
+            boardcode string,
+            projectcode string,
+            prioritycode string,
+            sizecode string,
+            statuscode string,
+            createdbyuser string,
+            createdtimestamp string,
+            assignedtouser string,
+            assignedtimestamp string,
+            closedbyuser string,
+            closedtimestamp string,
             description string,
             comments string
         )`);
         for (let i = 0; i < FAKE_ITEMS.length; i++) {
             const {
                 id,
-                projectCode,
-                priorityCode,
-                sizeCode,
-                statusCode,
-                createdByUser,
-                createdTimeStamp,
-                assignedToUser,
-                assignedTimeStamp,
-                closedByUser,
-                closedTimeStamp,
+                boardcode,
+                projectcode,
+                prioritycode,
+                sizecode,
+                statuscode,
+                createdbyuser,
+                createdtimestamp,
+                assignedtouser,
+                assignedtimestamp,
+                closedbyuser,
+                closedtimestamp,
                 description,
                 comments,
             } = FAKE_ITEMS[i];
-            alasql(`INSERT INTO item VALUES (
+            alasql(`INSERT INTO db.item VALUES (
                 ${id},
-                '${projectCode}',
-                '${priorityCode}',
-                '${sizeCode}',
-                '${statusCode}',
-                '${createdByUser}',
-                '${createdTimeStamp}',
-                '${assignedToUser}',
-                '${assignedTimeStamp}',
-                '${closedByUser}',
-                '${closedTimeStamp}',
+                '${boardcode}',
+                '${projectcode}',
+                '${prioritycode}',
+                '${sizecode}',
+                '${statuscode}',
+                '${createdbyuser}',
+                '${createdtimestamp}',
+                '${assignedtouser}',
+                '${assignedtimestamp}',
+                '${closedbyuser}',
+                '${closedtimestamp}',
                 '${description}',
                 '${comments}'
             )`);
         }
-        const result = alasql(`SELECT * FROM item`);
+        const result = alasql(`SELECT * FROM db.item`);
     }
 }

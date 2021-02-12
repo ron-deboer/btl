@@ -21,7 +21,10 @@ import { CodesComponent } from './codes/codes.component';
 import { UsersComponent } from './users/users.component';
 
 import { UserService } from './_services/user.service';
+import { CodeService } from './_services/code.service';
 import { DatePipe } from '@angular/common';
+import { ItemsComponent } from './items/items.component';
+import { ItemService } from './_services/item.service';
 
 @NgModule({
     imports: [
@@ -46,10 +49,13 @@ import { DatePipe } from '@angular/common';
         LoginComponent,
         CodesComponent,
         UsersComponent,
+        ItemsComponent,
     ],
     providers: [
         DatePipe,
         UserService,
+        CodeService,
+        ItemService,
         // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         fakeBackendProvider,

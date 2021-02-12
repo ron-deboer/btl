@@ -1,1 +1,161 @@
-<p>codes works!</p>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<div class="codes-container">
+    <div class="title">
+        <h5>Admin / Code</h5>
+        <div class="plus" data-toggle="tooltip" data-placement="right" title="Add Code">
+            <span class="add">Add Code</span>
+            <button
+                class="btn-add"
+                data-title="Add"
+                data-toggle="modal"
+                data-target="#edit"
+                (click)="onEditRow(-1)"
+            >
+                <i class="fa fa-plus fa-xs"></i>
+            </button>
+        </div>
+    </div>
+    <div class="main-table" *ngIf="!loading">
+        <ngx-datatable
+            #codeTable
+            class="bootstrap striped"
+            [loadingIndicator]="loadingIndicator"
+            [columnMode]="'force'"
+            [rows]="codes"
+            [columns]="columns"
+            [headerHeight]="43"
+            rowHeight="35"
+            [reorderable]="reorderable"
+        >
+            <ngx-datatable-column
+                name="Id"
+                prop="id"
+                [cellClass]="'id'"
+                [width]="30"
+                [frozenLeft]="true"
+            ></ngx-datatable-column>
+            <ngx-datatable-column name="Code Type" prop="codetype"></ngx-datatable-column>
+            <ngx-datatable-column name="Code" prop="code" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column
+                name="Description"
+                prop="description"
+                [width]="200"
+            ></ngx-datatable-column>
+            <ngx-datatable-column name="Edit" prop="id">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <div data-toggle="tooltip" data-placement="right" title="Edit Code">
+                        <button
+                            class="btn-edit"
+                            data-title="Edit"
+                            data-toggle="modal"
+                            data-target="#edit"
+                            (click)="onEditRow(value)"
+                        >
+                            <i class="fa fa-pencil fa-xs"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Delete" prop="id">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <div data-toggle="tooltip" data-placement="right" title="Delete Code">
+                        <button
+                            class="btn-delete"
+                            data-title="Delete"
+                            data-toggle="modal"
+                            data-target="#delete"
+                        >
+                            <i class="fa fa-trash fa-xs"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+
+<!-- edit modal -->
+<div
+    *ngIf="model != null"
+    class="modal fade"
+    id="edit"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="editLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <form (ngSubmit)="onSubmit(closeButton)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="label" for="id">Id</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm disabled"
+                            id="id"
+                            name="id"
+                            [(ngModel)]="model.id"
+                            READONLY
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="codetype">Code Type</label>
+                        <select
+                            class="form-control"
+                            id="codetype"
+                            name="codetype"
+                            [(ngModel)]="model.codetype"
+                            required
+                        >
+                            <option [ngValue]="c" *ngFor="let c of CODE_CRUD_SPEC.codetype.source">
+                                {{ c }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="code">Code</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="code"
+                            name="code"
+                            [(ngModel)]="model.code"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="description">Description</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="model.description"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        #closeButton
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

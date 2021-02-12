@@ -1,0 +1,82 @@
+.codes-container {
+    max-height: 100%;
+    overflow: hidden;
+    .title {
+        display: grid;
+        grid-template-columns: 90% auto;
+        h5 {
+            color: #b84;
+        }
+        .add {
+            color: #788;
+            margin-right: 5px;
+        }
+        .plus {
+            margin-top: 3px;
+            text-align: center;
+        }
+    }
+    .btn-add {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #cfc;
+    }
+    .btn-edit {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #ccf;
+    }
+    .btn-delete {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #fcc;
+    }
+    .icon {
+        height: 18px;
+        width: 18px;
+    }
+    .numeric {
+        text-align: end;
+    }
+}
+#edit {
+    .form-control {
+        color: maroon;
+    }
+    .label {
+        color: #444;
+        margin: 0;
+    }
+    input,
+    select {
+        background-color: #ffe;
+    }
+    .disabled {
+        background-color: #eee;
+    }
+}
+
+:host ::ng-deep .ngx-datatable .datatable-body {
+    max-height: calc(100vh - 140px) !important;
+    overflow: hidden auto;
+}
+
+:host ::ng-deep .datatable-header-cell {
+    padding: 5px 0px !important;
+    margin: 0px !important;
+    background-color: #ffc !important;
+    border-bottom: 1px solid #888 !important;
+}
+
+:host ::ng-deep .datatable-body-cell:first-child {
+    text-align: left;
+}
+
+:host ::ng-deep .datatable-row-even {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .datatable-body-cell {
+    padding: 0px !important;
+    margin: 0px !important;
+}
