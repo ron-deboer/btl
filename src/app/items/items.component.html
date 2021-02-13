@@ -30,11 +30,7 @@
             rowHeight="35"
             [reorderable]="reorderable"
         >
-            <ngx-datatable-column
-                name="Item/Bug Description"
-                prop="description"
-                [width]="200"
-            ></ngx-datatable-column>
+            <ngx-datatable-column name="Item Title" prop="title"></ngx-datatable-column>
             <ngx-datatable-column name="Kanban Board" prop="boardcode"></ngx-datatable-column>
             <ngx-datatable-column name="Project" prop="projectcode"></ngx-datatable-column>
             <ngx-datatable-column name="Priority" prop="prioritycode"></ngx-datatable-column>
@@ -98,6 +94,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label class="label" for="title">Title</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm input-sm"
+                            id="title"
+                            name="title"
+                            [(ngModel)]="model.title"
+                        />
+                    </div>
                     <div class="form-group">
                         <label class="label" for="description">Description</label>
                         <textarea
