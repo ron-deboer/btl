@@ -1,6 +1,7 @@
 ﻿import { ICode, ECodeType } from '../_interfaces/code';
 export interface IItem {
     id: number;
+    title: string;
     boardcode: ECodeType.Board;
     projectcode: ECodeType.Project;
     prioritycode: ECodeType.Priority;

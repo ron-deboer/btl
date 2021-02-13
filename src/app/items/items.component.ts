@@ -33,6 +33,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     model: IItem = null;
     ITEM_CRUD_SPEC = {
         id: { type: 'text', default: 0, required: true },
+        title: { type: 'text', default: '', required: true },
         boardcode: { type: 'select', source: [], default: '', required: true },
         projectcode: { type: 'select', source: [], default: '', required: true },
         prioritycode: { type: 'select', source: [], default: '', required: true },
@@ -73,6 +74,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
             .toPromise()
             .then((resp) => {
                 this.items = resp.sort((a, b) => (a.boardcode > b.boardcode ? 1 : -1));
+                console.table(this.items);
                 return true;
             });
     }
@@ -185,6 +187,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     initModel() {
         this.model = <IItem>{
             id: 0,
+            title: '',
             boardcode: '' as ECodeType.Board,
             projectcode: '' as ECodeType.Project,
             prioritycode: '' as ECodeType.Priority,

@@ -150,6 +150,7 @@ const FAKE_CODES: ICode[] = [
 const FAKE_ITEMS: IItem[] = [
     {
         id: 1,
+        title: 'Title for item number 1',
         boardcode: 'BOARD-1' as ECodeType.Board,
         projectcode: 'PROJ-1' as ECodeType.Project,
         prioritycode: 'High' as ECodeType.Priority,
@@ -161,11 +162,13 @@ const FAKE_ITEMS: IItem[] = [
         assignedtimestamp: new Date().toISOString(),
         closedbyuser: '',
         closedtimestamp: '',
-        description: 'Test item 1',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
         comments: '',
     },
     {
         id: 2,
+        title: 'Title for item number 2',
         boardcode: 'BOARD-2' as ECodeType.Board,
         projectcode: 'PROJ-2' as ECodeType.Project,
         prioritycode: 'Medium' as ECodeType.Priority,
@@ -177,7 +180,8 @@ const FAKE_ITEMS: IItem[] = [
         assignedtimestamp: '',
         closedbyuser: '',
         closedtimestamp: '',
-        description: 'Test item 2',
+        description:
+            'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
     },
 ];
@@ -227,6 +231,7 @@ class LoadData {
     loadItems(): void {
         alasql(`CREATE TABLE db.item (
             id int,
+            title string,
             boardcode string,
             projectcode string,
             prioritycode string,
@@ -244,6 +249,7 @@ class LoadData {
         for (let i = 0; i < FAKE_ITEMS.length; i++) {
             const {
                 id,
+                title,
                 boardcode,
                 projectcode,
                 prioritycode,
@@ -260,6 +266,7 @@ class LoadData {
             } = FAKE_ITEMS[i];
             alasql(`INSERT INTO db.item VALUES (
                 ${id},
+                '${title}',
                 '${boardcode}',
                 '${projectcode}',
                 '${prioritycode}',

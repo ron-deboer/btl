@@ -1,1 +1,121 @@
-<h1>W E L C O M E</h1>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<div class="home-container">
+    <form>
+        <div class="header">
+            <div class="title">
+                <h5>Kanban Board</h5>
+            </div>
+            <div class="select" *ngIf="!loading">
+                <span class="text">Kanban Board</span>
+                <select
+                    class="form-control-inline form-control-sm"
+                    id="boardcode"
+                    name="boardcode"
+                    [(ngModel)]="boardCode"
+                    (change)="onBoardChange()"
+                >
+                    <option [ngValue]="bc.code" *ngFor="let bc of boards">
+                        {{ bc.code }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="main" *ngIf="!loading">
+            <div class="column">
+                <div class="header">
+                    <div class="title">Open Items</div>
+                    <div>+</div>
+                </div>
+                <ul class="open-items items">
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="header">
+                                    <div class="title">{{ item.title }}</div>
+                                    <div class="handle">:::</div>
+                                </div>
+                                <p class="card-text">
+                                    {{ item.projectcode }}
+                                    {{ item.prioritycode }}
+                                    {{ item.sizecode }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <div class="header">
+                    <div class="title">Assigned</div>
+                    <div>+</div>
+                </div>
+                <ul class="open-items items">
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="header">
+                                    <div class="title">{{ item.title }}</div>
+                                    <div class="handle">:::</div>
+                                </div>
+                                <p class="card-text">
+                                    {{ item.projectcode }}
+                                    {{ item.prioritycode }}
+                                    {{ item.sizecode }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <div class="header">
+                    <div class="title">In QA</div>
+                    <div>+</div>
+                </div>
+                <ul class="open-items items">
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="header">
+                                    <div class="title">{{ item.title }}</div>
+                                    <div class="handle">:::</div>
+                                </div>
+                                <p class="card-text">
+                                    {{ item.projectcode }}
+                                    {{ item.prioritycode }}
+                                    {{ item.sizecode }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <div class="header">
+                    <div class="title">Completed</div>
+                    <div>+</div>
+                </div>
+                <ul class="open-items items">
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="header">
+                                    <div class="title">{{ item.title }}</div>
+                                    <div class="handle">:::</div>
+                                </div>
+                                <p class="card-text">
+                                    {{ item.projectcode }}
+                                    {{ item.prioritycode }}
+                                    {{ item.sizecode }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
