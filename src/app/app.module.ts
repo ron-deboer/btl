@@ -25,6 +25,7 @@ import { CodeService } from './_services/code.service';
 import { DatePipe } from '@angular/common';
 import { ItemsComponent } from './items/items.component';
 import { ItemService } from './_services/item.service';
+import { ItemComponent } from './home/item/item.component';
 
 @NgModule({
     imports: [
@@ -50,6 +51,7 @@ import { ItemService } from './_services/item.service';
         CodesComponent,
         UsersComponent,
         ItemsComponent,
+        ItemComponent,
     ],
     providers: [
         DatePipe,

@@ -242,6 +242,25 @@ const FAKE_ITEMS: IItem[] = [
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
     },
+    {
+        id: 6,
+        title: 'Develop ui framework',
+        disporder: 10006,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Low' as ECodeType.Size,
+        statuscode: 'Assigned' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: 'user',
+        assignedtimestamp: new Date().toISOString(),
+        closedbyuser: '',
+        closedtimestamp: '',
+        description:
+            'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
+        comments: '',
+    },
 ];
 
 export const FakeDataLoader = () => {
