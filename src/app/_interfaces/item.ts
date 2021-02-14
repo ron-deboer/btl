@@ -2,6 +2,7 @@
 export interface IItem {
     id: number;
     title: string;
+    disporder: number;
     boardcode: ECodeType.Board;
     projectcode: ECodeType.Project;
     prioritycode: ECodeType.Priority;

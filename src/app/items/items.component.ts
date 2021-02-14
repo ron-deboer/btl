@@ -1,11 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { isNumeric } from '../_helpers/utils';
 import { ToastrService } from 'ngx-toastr';
@@ -170,6 +163,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
             this.itemService.updateItem(this.model).toPromise();
         } else {
             this.model.id = this.items.sort((a, b) => (a.id < b.id ? 1 : -1))[0].id + 2;
+            this.model.disporder = this.model.id + 10000;
             this.items.push(this.model);
             this.itemService.insertItem(this.model).toPromise();
         }
@@ -188,6 +182,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
         this.model = <IItem>{
             id: 0,
             title: '',
+            disporder: 0,
             boardcode: '' as ECodeType.Board,
             projectcode: '' as ECodeType.Project,
             prioritycode: '' as ECodeType.Priority,

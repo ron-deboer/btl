@@ -4,6 +4,7 @@
     .header {
         display: grid;
         grid-template-columns: 70% auto;
+        padding: 10px;
         .title {
             h5 {
                 color: #b84;
@@ -33,14 +34,14 @@
         grid-template-columns: repeat(4, 1fr);
         background-color: #eee;
         padding: 0px 10px;
-        color: #444;
+        color: #788;
         .column {
             height: calc(100vh - 130px);
             .header {
                 display: grid;
                 grid-template-columns: 95% auto;
                 padding: 10px;
-                font-weight: 600;
+                font-weight: 700;
             }
             .items {
                 list-style-type: none;
@@ -49,19 +50,44 @@
                 font-size: 1.75vh;
                 font-weight: 600;
 
-                .card {
+                .item-card {
                     border-radius: 4px;
                     box-shadow: 2px 2px #ccc;
-                    .card-body {
+                    margin-bottom: 10px;
+                    background-color: #fff;
+                    padding: 10px;
+                    .item-card-body {
                         padding: 0px 8px;
                         .header {
+                            padding: 5px 0px;
                             display: grid;
                             grid-template-columns: 95% auto;
                             .title {
+                                .id {
+                                    color: #ccc;
+                                }
+                            }
+                            .handle {
+                                cursor: pointer;
                             }
                         }
-                        .card-text {
+                        .item-card-text {
                             font-weight: 400;
+                            color: #ccc;
+                            .codes {
+                                display: flex;
+                                .code {
+                                    border: 1px solid #eee;
+                                    font-size: 1.2vh;
+                                    text-align: center;
+                                    text-transform: uppercase;
+                                    padding: 4px;
+                                    margin-right: 5px;
+                                    .badge {
+                                        padding: 2px 10px;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

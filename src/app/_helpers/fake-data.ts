@@ -60,27 +60,27 @@ const FAKE_CODES: ICode[] = [
     {
         id: 1,
         codetype: ECodeType.Board,
-        code: 'BOARD-1',
-        description: 'Kanban Board 1',
+        code: 'Dev',
+        description: 'Dev board',
     },
     {
         id: 2,
         codetype: ECodeType.Board,
-        code: 'BOARD-2',
-        description: 'Kanban Board 2',
+        code: 'Bugs',
+        description: 'Bugs board',
     },
     // project
     {
         id: 3,
         codetype: ECodeType.Project,
-        code: 'PROJ-1',
-        description: 'Project 1',
+        code: 'WebUi',
+        description: 'Web UI Project',
     },
     {
         id: 4,
         codetype: ECodeType.Project,
-        code: 'PROJ-2',
-        description: 'Project 2',
+        code: 'RestApi',
+        description: 'Rest API Project',
     },
     // priority
     {
@@ -117,8 +117,8 @@ const FAKE_CODES: ICode[] = [
     {
         id: 10,
         codetype: ECodeType.Status,
-        code: 'QA',
-        description: 'In QA',
+        code: 'Review',
+        description: 'Review',
     },
     {
         id: 20,
@@ -150,9 +150,10 @@ const FAKE_CODES: ICode[] = [
 const FAKE_ITEMS: IItem[] = [
     {
         id: 1,
-        title: 'Title for item number 1',
-        boardcode: 'BOARD-1' as ECodeType.Board,
-        projectcode: 'PROJ-1' as ECodeType.Project,
+        title: 'Develop nav bar',
+        disporder: 10001,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
         prioritycode: 'High' as ECodeType.Priority,
         sizecode: 'Medium' as ECodeType.Size,
         statuscode: 'Open' as ECodeType.Status,
@@ -162,15 +163,72 @@ const FAKE_ITEMS: IItem[] = [
         assignedtimestamp: new Date().toISOString(),
         closedbyuser: '',
         closedtimestamp: '',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
         comments: '',
     },
     {
         id: 2,
-        title: 'Title for item number 2',
-        boardcode: 'BOARD-2' as ECodeType.Board,
-        projectcode: 'PROJ-2' as ECodeType.Project,
+        title: 'Develop CRUD for codes',
+        disporder: 10002,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Low' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: '',
+        assignedtimestamp: '',
+        closedbyuser: '',
+        closedtimestamp: '',
+        description:
+            'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
+        comments: '',
+    },
+    {
+        id: 3,
+        title: 'Develop CRUD for users',
+        disporder: 10003,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Low' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: '',
+        assignedtimestamp: '',
+        closedbyuser: '',
+        closedtimestamp: '',
+        description:
+            'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
+        comments: '',
+    },
+    {
+        id: 4,
+        title: 'Develop CRUD for items',
+        disporder: 10004,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Low' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: '',
+        assignedtimestamp: '',
+        closedbyuser: '',
+        closedtimestamp: '',
+        description:
+            'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
+        comments: '',
+    },
+    {
+        id: 5,
+        title: 'Develop kanban board',
+        disporder: 10005,
+        boardcode: 'Dev' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
         prioritycode: 'Medium' as ECodeType.Priority,
         sizecode: 'Low' as ECodeType.Size,
         statuscode: 'Open' as ECodeType.Status,
@@ -221,9 +279,7 @@ class LoadData {
         alasql('CREATE TABLE db.code (id int, codetype string, code string, description string)');
         for (let i = 0; i < FAKE_CODES.length; i++) {
             const { id, codetype, code, description } = FAKE_CODES[i];
-            alasql(
-                `INSERT INTO db.code VALUES (${id}, '${codetype}', '${code}', '${description}')`
-            );
+            alasql(`INSERT INTO db.code VALUES (${id}, '${codetype}', '${code}', '${description}')`);
         }
         const result = alasql(`SELECT * FROM db.code`);
     }
@@ -232,6 +288,7 @@ class LoadData {
         alasql(`CREATE TABLE db.item (
             id int,
             title string,
+            disporder number,
             boardcode string,
             projectcode string,
             prioritycode string,
@@ -250,6 +307,7 @@ class LoadData {
             const {
                 id,
                 title,
+                disporder,
                 boardcode,
                 projectcode,
                 prioritycode,
@@ -267,6 +325,7 @@ class LoadData {
             alasql(`INSERT INTO db.item VALUES (
                 ${id},
                 '${title}',
+                '${disporder}',
                 '${boardcode}',
                 '${projectcode}',
                 '${prioritycode}',
