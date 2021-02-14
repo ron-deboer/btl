@@ -10,7 +10,8 @@ declare var alasql: any;
 export class AppComponent implements OnInit {
     title = 'testapp';
     ngOnInit() {
-        alasql('CREATE localStorage DATABASE IF NOT EXISTS db');
-        alasql('ATTACH localStorage DATABASE db');
+        sessionStorage.removeItem('user');
+        alasql('CREATE DATABASE IF NOT EXISTS db');
+        alasql('ATTACH DATABASE db');
     }
 }

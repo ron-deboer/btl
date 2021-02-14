@@ -6,7 +6,9 @@
     <form>
         <div class="header">
             <div class="title">
-                <h5>Kanban Board</h5>
+                <h5>
+                    Kanban Board - <span class="boardcode">{{ boardCode }}</span>
+                </h5>
             </div>
             <div class="select" *ngIf="!loading">
                 <span class="text">Kanban Board</span>
@@ -30,48 +32,8 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId">
-                        <div class="item-card">
-                            <div class="item-card-body">
-                                <div class="header">
-                                    <div class="title">
-                                        <span class="id">[{{ item.id }}]</span> {{ item.title }}
-                                    </div>
-                                    <div class="handle">::</div>
-                                </div>
-                                <div class="item-card-text">
-                                    <div class="codes">
-                                        <div class="code">
-                                            Priority<br />
-                                            <span
-                                                class="badge badge-pill"
-                                                [ngClass]="getCodeClass('priority', item.prioritycode)"
-                                            >
-                                                {{ item.prioritycode }}</span
-                                            >
-                                        </div>
-                                        <div class="code">
-                                            Size<br />
-                                            <span
-                                                class="badge badge-pill"
-                                                [ngClass]="getCodeClass('size', item.sizecode)"
-                                            >
-                                                {{ item.sizecode }}</span
-                                            >
-                                        </div>
-                                        <div class="code">
-                                            Status<br />
-                                            <span
-                                                class="badge badge-pill"
-                                                [ngClass]="getCodeClass('status', item.statuscode)"
-                                            >
-                                                {{ item.statuscode }}</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <li *ngFor="let item of getBoardItems('Open'); index as i; trackBy: trackByItemId1">
+                        <app-item [item]="item"></app-item>
                     </li>
                 </ul>
             </div>
@@ -81,7 +43,9 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId"></li>
+                    <li *ngFor="let item of getBoardItems('Assigned'); index as i; trackBy: trackByItemId2">
+                        <app-item [item]="item"></app-item>
+                    </li>
                 </ul>
             </div>
             <div class="column">
@@ -90,7 +54,7 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId"></li>
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId3"></li>
                 </ul>
             </div>
             <div class="column">
@@ -99,7 +63,7 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId"></li>
+                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId4"></li>
                 </ul>
             </div>
         </div>

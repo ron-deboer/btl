@@ -30,7 +30,7 @@
             rowHeight="35"
             [reorderable]="reorderable"
         >
-            <ngx-datatable-column name="Item Title" prop="title"></ngx-datatable-column>
+            <ngx-datatable-column name="Item Title" prop="title" [width]="400"></ngx-datatable-column>
             <ngx-datatable-column name="Kanban Board" prop="boardcode"></ngx-datatable-column>
             <ngx-datatable-column name="Project" prop="projectcode"></ngx-datatable-column>
             <ngx-datatable-column name="Priority" prop="prioritycode"></ngx-datatable-column>
@@ -131,10 +131,7 @@
                                 }"
                                 required
                             >
-                                <option
-                                    [ngValue]="bc"
-                                    *ngFor="let bc of ITEM_CRUD_SPEC.boardcode.source"
-                                >
+                                <option [ngValue]="bc" *ngFor="let bc of ITEM_CRUD_SPEC.boardcode.source">
                                     {{ bc }}
                                 </option>
                             </select>
@@ -151,10 +148,7 @@
                                 }"
                                 required
                             >
-                                <option
-                                    [ngValue]="pc"
-                                    *ngFor="let pc of ITEM_CRUD_SPEC.projectcode.source"
-                                >
+                                <option [ngValue]="pc" *ngFor="let pc of ITEM_CRUD_SPEC.projectcode.source">
                                     {{ pc }}
                                 </option>
                             </select>
@@ -191,10 +185,7 @@
                                 }"
                                 required
                             >
-                                <option
-                                    [ngValue]="sc"
-                                    *ngFor="let sc of ITEM_CRUD_SPEC.sizecode.source"
-                                >
+                                <option [ngValue]="sc" *ngFor="let sc of ITEM_CRUD_SPEC.sizecode.source">
                                     {{ sc }}
                                 </option>
                             </select>
@@ -211,10 +202,7 @@
                                 }"
                                 required
                             >
-                                <option
-                                    [ngValue]="stc"
-                                    *ngFor="let stc of ITEM_CRUD_SPEC.statuscode.source"
-                                >
+                                <option [ngValue]="stc" *ngFor="let stc of ITEM_CRUD_SPEC.statuscode.source">
                                     {{ stc }}
                                 </option>
                             </select>
@@ -251,12 +239,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        #closeButton
-                        type="button"
-                        class="btn btn-secondary"
-                        data-dismiss="modal"
-                    >
+                    <button #closeButton type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-primary">Save</button>

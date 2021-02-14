@@ -1,0 +1,41 @@
+.item-card {
+    border-radius: 4px;
+    box-shadow: 2px 2px #ccc;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px;
+    .item-card-body {
+        padding: 0px 8px;
+        .header {
+            padding: 5px 0px;
+            display: grid;
+            grid-template-columns: 95% auto;
+            .title {
+                .id {
+                    color: #ccc;
+                }
+            }
+            .handle {
+                cursor: pointer;
+            }
+        }
+        .item-card-text {
+            font-weight: 400;
+            color: #ccc;
+            .codes {
+                display: flex;
+                .code {
+                    border: 1px solid #eee;
+                    font-size: 1.2vh;
+                    text-align: center;
+                    text-transform: uppercase;
+                    padding: 4px;
+                    margin-right: 5px;
+                    .badge {
+                        padding: 4px 10px;
+                    }
+                }
+            }
+        }
+    }
+}

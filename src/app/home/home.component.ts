@@ -54,6 +54,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     loadBoardItems() {
         this.boardItems = this.items.filter((x) => x.boardcode === this.boardCode);
+        console.table(this.boardItems);
     }
 
     fetchAllItems(): Promise<any> {
@@ -218,36 +219,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     }
 */
-    getCodeClass(codetype, code): string {
-        const c = code.toLowerCase();
-        if (codetype === 'size') {
-            if (c === 'large') {
-                return 'badge-danger';
-            }
-            if (c === 'medium') {
-                return 'badge-warning';
-            }
-            return 'badge-success';
-        }
-        if (codetype !== 'status') {
-            if (c === 'high') {
-                return 'badge-danger';
-            }
-            if (c === 'medium') {
-                return 'badge-warning';
-            }
-            return 'badge-success';
-        }
-        if (c === 'open') {
-            return 'badge-danger';
-        }
-        if (c !== 'closed') {
-            return 'badge-warning';
-        }
-        return 'badge-success';
+    getBoardItems(status) {
+        return this.boardItems.filter((x) => x.statuscode === status);
     }
 
-    trackByItemId(index: number, item: any): number {
+    trackByItemId1(index: number, item: any): number {
+        return item.id;
+    }
+    trackByItemId2(index: number, item: any): number {
+        return item.id;
+    }
+    trackByItemId3(index: number, item: any): number {
+        return item.id;
+    }
+    trackByItemId4(index: number, item: any): number {
         return item.id;
     }
 }
