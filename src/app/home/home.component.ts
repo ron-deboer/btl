@@ -1,11 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { isNumeric } from '../_helpers/utils';
 import { ToastrService } from 'ngx-toastr';
@@ -68,7 +61,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .getAll()
             .toPromise()
             .then((resp) => {
-                this.items = resp.sort((a, b) => (a.boardcode > b.boardcode ? 1 : -1));
+                this.items = resp.sort((a, b) =>
+                    a.boardcode < b.boardcode
+                        ? -1
+                        : a.boardcode > b.boardcode
+                        ? 1
+                        : a.disporder < b.disporder
+                        ? -1
+                        : a.disporder > b.disporder
+                        ? 1
+                        : 0
+                );
                 return true;
             });
     }
@@ -215,6 +218,35 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     }
 */
+    getCodeClass(codetype, code): string {
+        const c = code.toLowerCase();
+        if (codetype === 'size') {
+            if (c === 'large') {
+                return 'badge-danger';
+            }
+            if (c === 'medium') {
+                return 'badge-warning';
+            }
+            return 'badge-success';
+        }
+        if (codetype !== 'status') {
+            if (c === 'high') {
+                return 'badge-danger';
+            }
+            if (c === 'medium') {
+                return 'badge-warning';
+            }
+            return 'badge-success';
+        }
+        if (c === 'open') {
+            return 'badge-danger';
+        }
+        if (c !== 'closed') {
+            return 'badge-warning';
+        }
+        return 'badge-success';
+    }
+
     trackByItemId(index: number, item: any): number {
         return item.id;
     }
