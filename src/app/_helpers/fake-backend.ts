@@ -107,7 +107,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
          */
         function doInsert(dat: any, dtype: string) {
             db[dtype].push(dat);
-            console.table(db[dtype]);
             setTimeout(() => {
                 persistDb();
             }, 250);

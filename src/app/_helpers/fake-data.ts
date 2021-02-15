@@ -12,7 +12,9 @@ export const fetchDb = () => {
 export const persistDb = () => {
     localStorage.setItem('demoDb', JSON.stringify(db));
 };
-
+/**
+ * fake data
+ */
 const FAKE_USERS: IUser[] = [
     {
         id: 1,
@@ -21,46 +23,52 @@ const FAKE_USERS: IUser[] = [
         email: 'admin@mail.com',
         password: 'admin',
         role: ERole.Admin,
+        boardcode: '',
     },
     {
         id: 2,
-        username: 'user',
-        name: 'Regular User',
-        email: 'user@mail.com',
-        password: 'user',
+        username: 'user-1',
+        name: 'Regular User 1',
+        email: 'user1@mail.com',
+        password: 'user-1',
         role: ERole.User,
+        boardcode: '',
     },
     {
         id: 3,
-        username: 'luker',
+        username: 'dev-luker',
         name: 'Luke Rogers',
         email: 'luker@mail.com',
         password: 'luker',
         role: ERole.User,
+        boardcode: '',
     },
     {
         id: 4,
-        username: 'gailp',
+        username: 'dev-gailp',
         name: 'Gail Parsons',
         email: 'gailp@mail.com',
         password: 'gailp',
         role: ERole.User,
+        boardcode: '',
     },
     {
         id: 5,
-        username: 'patches',
+        username: 'qa-patches',
         name: 'Patches the Whippet',
         email: 'patches@mail.com',
         password: 'patches',
         role: ERole.User,
+        boardcode: '',
     },
     {
         id: 6,
-        username: 'belladb',
+        username: 'qa-belladb',
         name: 'Bella deBoer',
         email: 'belladb@mail.com',
         password: 'belladb',
         role: ERole.User,
+        boardcode: '',
     },
 ];
 
@@ -308,16 +316,37 @@ const FAKE_ITEMS: IItem[] = [
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
     },
+    {
+        id: 9,
+        title: 'Add more padding to item card',
+        disporder: 10009,
+        boardcode: 'Bugs' as ECodeType.Board,
+        projectcode: 'WebUi' as ECodeType.Project,
+        prioritycode: 'Medium' as ECodeType.Priority,
+        sizecode: 'Small' as ECodeType.Size,
+        statuscode: 'Open' as ECodeType.Status,
+        createdbyuser: 'admin',
+        createdtimestamp: new Date().toISOString(),
+        assignedtouser: '',
+        assignedtimestamp: '',
+        closedbyuser: '',
+        closedtimestamp: '',
+        description: 'Add more padding to item card in kanban page',
+        comments: '',
+    },
 ];
-
+/**
+ * initial data load and persist
+ */
 export const FakeDataLoader = () => {
-    let db = localStorage.getItem('demoDb');
-    if (!Boolean(db)) {
-        let str = JSON.stringify({
+    let str = localStorage.getItem('demoDb');
+    if (!Boolean(str)) {
+        let db = {
             users: FAKE_USERS,
             code: FAKE_CODES,
             item: FAKE_ITEMS,
-        });
-        localStorage.setItem('demoDb', str);
+        };
+        localStorage.setItem('demoDb', JSON.stringify(db));
     }
+    fetchDb();
 };

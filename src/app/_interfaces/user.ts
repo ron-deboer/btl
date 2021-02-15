@@ -11,4 +11,5 @@ export interface IUser {
     role: ERole;
     password: string;
     token?: string;
+    boardcode: string;
 }
