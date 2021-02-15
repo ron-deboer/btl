@@ -3,7 +3,7 @@
     box-shadow: 2px 2px #ccc;
     margin-bottom: 10px;
     background-color: #fff;
-    padding: 10px;
+    padding: 20px;
     font-size: 0.7vw;
     .item-card-body {
         padding: 0;
@@ -33,6 +33,7 @@
             }
         }
         .item-card-text {
+            padding: 10px 0px;
             font-weight: 400;
             color: #ccc;
             .codes {

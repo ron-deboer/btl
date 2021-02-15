@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngOnInit(): void {
         this.user = JSON.parse(sessionStorage.getItem('user'));
+        this.boardCode = this.user.boardcode === '' ? 'Dev' : this.user.boardcode;
         this.reloadData();
     }
 
@@ -75,7 +76,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
         Promise.all(prArray).then((values) => {
             this.boards = this.codes.filter((x) => x.codetype === (ECodeType.Board as string));
             this.statuses = this.codes.filter((x) => x.codetype === (ECodeType.Status as string));
-            this.boardCode = this.boards[0].code;
             this.loadBoardItems();
             this.loading = false;
             this.cdRef.detectChanges();
@@ -133,7 +133,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     onBoardChange() {
-        alert('board change  >> ' + this.boardCode);
+        this.user.boardcode = this.boardCode;
+        sessionStorage.setItem('user', JSON.stringify(this.user));
+        setTimeout(() => {
+            const data = { id: this.user.id, boardcode: this.boardCode };
+            this.userService.updateUser(data);
+        }, 1000);
+        this.handleReload(null);
     }
 
     handleReload(ev) {
@@ -170,7 +176,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             description: '',
             comments: '',
         };
-        console.log(this.model);
     }
 
     loadSelectCodes(key, codeType) {

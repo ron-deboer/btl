@@ -13,15 +13,18 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     getAll(): Observable<IUser[]> {
-        return this.http.get<IUser[]>(`${environment.apiUrl}/user/getall`).pipe(catchError((err) => of(<IUser[]>[])));
+        return this.http
+            .get<IUser[]>(`${environment.apiUrl}/user/getall`)
+            .pipe(catchError((err) => of(<IUser[]>[])));
     }
 
     getById(id: number): Observable<IUser> {
-        return this.http.get<IUser>(`${environment.apiUrl}/users/${id}`);
+        return this.http.get<IUser>(`${environment.apiUrl}/user/${id}`);
     }
 
-    updateUser(data: IUser): Observable<void> {
-        return this.http.post<void>(`${environment.apiUrl}/user/update`, data);
+    updateUser(data: any): Observable<void> {
+        const url = `${environment.apiUrl}/user/update`;
+        return this.http.post<void>(url, data);
     }
 
     insertUser(data: IUser): Observable<void> {

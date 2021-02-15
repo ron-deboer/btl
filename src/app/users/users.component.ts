@@ -1,11 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IUser } from '../_interfaces/user';
 import { isNumeric } from '../_helpers/utils';
@@ -16,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-users',
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.scss'],
-    // encapsulation: ViewEncapsulation.None,
 })
 export class UsersComponent implements OnInit, AfterViewInit {
     loading = true;
@@ -30,6 +22,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
         role: { type: 'select', source: ['admin', 'user'], default: 'user' },
         password: { type: 'text', default: '' },
         token: { type: 'text', default: '' },
+        boardcode: { type: 'text', default: '' },
     };
 
     constructor(
