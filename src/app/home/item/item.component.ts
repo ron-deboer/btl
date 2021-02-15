@@ -177,12 +177,12 @@ export class ItemComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     checkIfInvalid(fld) {
-        if (this.ITEM_CRUD_SPEC[fld].required && this.item[fld] === '') {
+        if (this.ITEM_CRUD_SPEC[fld].required && this.model[fld] === '') {
             return true;
         }
         switch (fld) {
             case 'assignedtouser':
-                return (this.item.statuscode as string) === 'Assigned' && this.item[fld] === '';
+                return (this.model.statuscode as string) === 'Assigned' && this.model[fld] === '';
                 break;
         }
     }
