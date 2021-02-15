@@ -66,7 +66,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngOnChanges(): void {}
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void {
+        this.toastr.info(
+            'According to true Kanban, the 2 middle columns cannot have more than 3 cards each. The focus of the team is to keep cards moving left to right and clear the 2 middle columns.',
+            'Kanban Principles',
+            {
+                timeOut: 12000,
+            }
+        );
+    }
 
     reloadData() {
         let prArray = [] as any;
