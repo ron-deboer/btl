@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FakeDataLoader } from './_helpers/fake-data';
 
 declare var alasql: any;
 
@@ -8,10 +9,9 @@ declare var alasql: any;
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-    title = 'testapp';
+    title = 'btl';
     ngOnInit() {
-        sessionStorage.removeItem('user');
-        alasql('CREATE DATABASE IF NOT EXISTS db');
-        alasql('ATTACH DATABASE db');
+        alasql('CREATE localstorage DATABASE IF NOT EXISTS db');
+        alasql('ATTACH localstorage DATABASE db');
     }
 }

@@ -33,15 +33,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.fetchAllCodes().then((resp) => {
             this.codes = resp.sort((a, b) =>
-                a.codetype < b.codetype
-                    ? -1
-                    : a.codetype > b.codetype
-                    ? 1
-                    : a.id < b.id
-                    ? -1
-                    : a.id > b.id
-                    ? 1
-                    : 0
+                a.codetype < b.codetype ? -1 : a.codetype > b.codetype ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0
             );
             this.loading = false;
         });
@@ -66,7 +58,6 @@ export class CodesComponent implements OnInit, AfterViewInit {
             this.codeService.insertCode(this.model).toPromise();
         }
         this.codes = Object.assign([], this.codes);
-        console.table(this.codes);
 
         this.toastr.success('Updated Ok!', 'Code', {
             timeOut: 3000,
@@ -85,9 +76,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
         }
         const dat = this.codes.find((x) => x.id === idx);
         Object.keys(this.CODE_CRUD_SPEC).forEach((field) => {
-            this.model[field] = isNumeric(this.CODE_CRUD_SPEC[field].default)
-                ? parseInt(dat[field], 10)
-                : dat[field];
+            this.model[field] = isNumeric(this.CODE_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
         });
     }
 }

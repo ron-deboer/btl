@@ -41,6 +41,9 @@
 }
 #edit {
     font-size: 0.75vw;
+    .modal-content {
+        padding: 10px 40px;
+    }
     .controlrow {
         display: grid;
         grid-gap: 1rem;
