@@ -67,7 +67,6 @@ export class ItemsComponent implements OnInit, AfterViewInit {
             .toPromise()
             .then((resp) => {
                 this.items = resp.sort((a, b) => (a.boardcode > b.boardcode ? 1 : -1));
-                console.table(this.items);
                 return true;
             });
     }
@@ -99,9 +98,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     }
 
     loadSelectCodes(key, codeType) {
-        this.ITEM_CRUD_SPEC[key].source = this.codes
-            .filter((x) => x.codetype === codeType)
-            .map((x) => x.code);
+        this.ITEM_CRUD_SPEC[key].source = this.codes.filter((x) => x.codetype === codeType).map((x) => x.code);
     }
 
     loadSelectUsers(key) {
@@ -123,9 +120,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
         const dat = this.items.find((x) => x.id === idx);
         Object.keys(this.ITEM_CRUD_SPEC).forEach((field) => {
             const prevValue = this.model[field];
-            this.model[field] = isNumeric(this.ITEM_CRUD_SPEC[field].default)
-                ? parseInt(dat[field], 10)
-                : dat[field];
+            this.model[field] = isNumeric(this.ITEM_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
             // timestamps
             if (field === 'assignedtouser') {
                 if (prevValue === '' && this.model[field] !== '') {
@@ -168,7 +163,6 @@ export class ItemsComponent implements OnInit, AfterViewInit {
             this.itemService.insertItem(this.model).toPromise();
         }
         this.items = Object.assign([], this.items);
-        console.table(this.items);
 
         this.toastr.success('Updated Ok!', 'Item', {
             timeOut: 3000,

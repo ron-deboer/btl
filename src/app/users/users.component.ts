@@ -1,11 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IUser } from '../_interfaces/user';
 import { isNumeric } from '../_helpers/utils';
@@ -69,7 +62,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
             this.userService.insertUser(this.model).toPromise();
         }
         this.users = Object.assign([], this.users);
-        console.table(this.users);
 
         this.toastr.success('Updated Ok!', 'User', {
             timeOut: 3000,
@@ -88,9 +80,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
         }
         const dat = this.users.find((x) => x.id === idx);
         Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
-            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
-                ? parseInt(dat[field], 10)
-                : dat[field];
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
         });
     }
 }

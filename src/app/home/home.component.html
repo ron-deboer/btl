@@ -54,7 +54,9 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId3"></li>
+                    <li *ngFor="let item of getBoardItems('Review'); index as i; trackBy: trackByItemId2">
+                        <app-item [item]="item"></app-item>
+                    </li>
                 </ul>
             </div>
             <div class="column">
@@ -63,7 +65,9 @@
                     <div>+</div>
                 </div>
                 <ul class="open-items items">
-                    <li *ngFor="let item of boardItems; index as i; trackBy: trackByItemId4"></li>
+                    <li *ngFor="let item of getBoardItems('Closed'); index as i; trackBy: trackByItemId2">
+                        <app-item [item]="item"></app-item>
+                    </li>
                 </ul>
             </div>
         </div>

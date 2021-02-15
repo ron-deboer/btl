@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     loadBoardItems() {
         this.boardItems = this.items.filter((x) => x.boardcode === this.boardCode);
-        console.table(this.boardItems);
     }
 
     fetchAllItems(): Promise<any> {
@@ -83,7 +82,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .toPromise()
             .then((resp) => {
                 this.codes = resp;
-                /*                
+                /*
                 this.loadSelectCodes('boardcode', ECodeType.Board);
                 this.loadSelectCodes('projectcode', ECodeType.Project);
                 this.loadSelectCodes('prioritycode', ECodeType.Priority);
@@ -179,7 +178,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.itemService.insertItem(this.model).toPromise();
         }
         this.items = Object.assign([], this.items);
-        console.table(this.items);
 
         this.toastr.success('Updated Ok!', 'Item', {
             timeOut: 3000,

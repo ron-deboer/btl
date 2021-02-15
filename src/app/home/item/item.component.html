@@ -2,31 +2,213 @@
     <div class="item-card-body">
         <div class="header">
             <div class="title">
-                <span class="id">[{{ item.id }}]</span> {{ item.title }}
+                <span class="id">[{{ model.id }}]</span> {{ model.title }}
             </div>
-            <div class="handle">::</div>
+            <div class="handle">
+                <button
+                    class="btn-edit"
+                    data-title="Edit"
+                    data-toggle="modal"
+                    data-target="#edit_{{ model.id }}"
+                    (click)="onEditRow()"
+                >
+                    <i class="fa fa-pencil fa-xs"></i>
+                </button>
+            </div>
         </div>
         <div class="item-card-text">
             <div class="codes">
                 <div class="code">
                     Priority<br />
-                    <span class="badge badge-pill" [ngClass]="getCodeClass('priority', item.prioritycode)">
-                        {{ item.prioritycode }}</span
+                    <span class="badge badge-pill" [ngClass]="getCodeClass('priority', model.prioritycode)">
+                        {{ model.prioritycode }}</span
                     >
                 </div>
                 <div class="code">
                     Size<br />
-                    <span class="badge badge-pill" [ngClass]="getCodeClass('size', item.sizecode)">
-                        {{ item.sizecode }}</span
+                    <span class="badge badge-pill" [ngClass]="getCodeClass('size', model.sizecode)">
+                        {{ model.sizecode }}</span
                     >
                 </div>
                 <div class="code">
                     Status<br />
-                    <span class="badge badge-pill" [ngClass]="getCodeClass('status', item.statuscode)">
-                        {{ item.statuscode }}</span
+                    <span class="badge badge-pill" [ngClass]="getCodeClass('status', model.statuscode)">
+                        {{ model.statuscode }}</span
+                    >
+                </div>
+                <div class="code" *ngIf="model.assignedtouser !== ''">
+                    Assigned<br />
+                    <span class="badge badge-pill" [ngClass]="getCodeClass('user', model.assignedtouser)">
+                        {{ model.assignedtouser }}</span
                     >
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div
+    *ngIf="model != null"
+    class="modal fade"
+    id="edit_{{ model.id }}"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="editLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog edit-dialog" role="document">
+        <form #itemform="ngForm" (ngSubmit)="itemform.form.valid && onSubmit(closeButton)" class="needs-validation">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="label" for="title">Title</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm input-sm"
+                            id="title"
+                            name="title"
+                            [(ngModel)]="model.title"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="description">Description</label>
+                        <textarea
+                            #description="ngModel"
+                            rows="3"
+                            class="form-control form-control-sm"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="model.description"
+                            [ngClass]="{ isinvalid: checkIfInvalid('description') }"
+                            required
+                            minlength="4"
+                        ></textarea>
+                    </div>
+                    <div class="controlrow">
+                        <div class="form-group">
+                            <label class="label" for="boardcode">Kanban Board</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="boardcode"
+                                name="boardcode"
+                                [(ngModel)]="model.boardcode"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('boardcode')
+                                }"
+                                required
+                            >
+                                <option [ngValue]="bc" *ngFor="let bc of ITEM_CRUD_SPEC.boardcode.source">
+                                    {{ bc }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="projectcode">Project</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="projectcode"
+                                name="projectcode"
+                                [(ngModel)]="model.projectcode"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('projectcode')
+                                }"
+                                required
+                            >
+                                <option [ngValue]="pc" *ngFor="let pc of ITEM_CRUD_SPEC.projectcode.source">
+                                    {{ pc }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="prioritycode">Priority{{ model.prioritycode }}</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="prioritycode"
+                                name="prioritycode"
+                                [(ngModel)]="model.prioritycode"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('prioritycode')
+                                }"
+                                required
+                            >
+                                <option [ngValue]="prc" *ngFor="let prc of ITEM_CRUD_SPEC.prioritycode.source">
+                                    {{ prc }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="sizecode">Size</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="sizecode"
+                                name="sizecode"
+                                [(ngModel)]="model.sizecode"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('sizecode')
+                                }"
+                                required
+                            >
+                                <option [ngValue]="sc" *ngFor="let sc of ITEM_CRUD_SPEC.sizecode.source">
+                                    {{ sc }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="statuscode">Status</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="statuscode"
+                                name="statuscode"
+                                [(ngModel)]="model.statuscode"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('statuscode')
+                                }"
+                                required
+                            >
+                                <option [ngValue]="stc" *ngFor="let stc of ITEM_CRUD_SPEC.statuscode.source">
+                                    {{ stc }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="assignedtouser">Assigned To</label>
+                            <select
+                                class="form-control form-control-sm"
+                                id="assignedtouser"
+                                name="assignedtouser"
+                                [(ngModel)]="model.assignedtouser"
+                                [ngClass]="{
+                                    isinvalid: checkIfInvalid('assignedtouser')
+                                }"
+                            >
+                                <option [ngValue]="au" *ngFor="let au of ITEM_CRUD_SPEC.assignedtouser.source">
+                                    {{ au }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="comments">Comments</label>
+                        <textarea
+                            rows="3"
+                            class="form-control form-control-sm input-sm"
+                            id="comments"
+                            name="comments"
+                            [(ngModel)]="model.comments"
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button #closeButton type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
