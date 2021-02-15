@@ -48,6 +48,21 @@
                 grid-template-columns: 90% auto;
                 padding: 10px 20px;
                 font-weight: 700;
+                .btn-edit {
+                    line-height: 14px;
+                    cursor: pointer;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    background-color: #d93;
+                    color: white;
+                    .icon {
+                        height: 14px;
+                        width: 12px;
+                    }
+                }
+                .btn-edit:focus {
+                    outline: 0;
+                }
             }
             .items {
                 list-style-type: none;

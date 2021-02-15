@@ -35,6 +35,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
     boardCode: string;
     boardItems: IItem[] = [];
 
+    ITEM_CRUD_SPEC = {
+        id: { type: 'text', default: 0, required: true },
+        title: { type: 'text', default: '', required: true },
+        boardcode: { type: 'select', source: [], default: '', required: true },
+        projectcode: { type: 'select', source: [], default: '', required: true },
+        prioritycode: { type: 'select', source: [], default: '', required: true },
+        sizecode: { type: 'select', source: [], default: '', required: true },
+        statuscode: { type: 'select', source: [], default: '', required: true },
+        assignedtouser: { type: 'text', default: '', required: false },
+        description: { type: 'text', default: '', required: true },
+        comments: { type: 'text', default: '', required: false },
+    };
+    model: IItem;
+
     constructor(
         private itemService: ItemService,
         private codeService: CodeService,
@@ -46,13 +60,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngOnInit(): void {
         this.user = JSON.parse(sessionStorage.getItem('user'));
-    }
-
-    ngOnChanges(): void {
-        // console.log('home component change >>>');
-    }
-
-    ngAfterViewInit(): void {
         let prArray = [] as any;
         prArray.push(this.fetchAllItems());
         prArray.push(this.fetchAllCodes());
@@ -66,6 +73,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             this.cdRef.detectChanges();
         });
     }
+
+    ngOnChanges(): void {}
+
+    ngAfterViewInit(): void {}
 
     loadBoardItems() {
         this.boardItems = this.items.filter((x) => x.boardcode === this.boardCode);
@@ -125,6 +136,47 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     getBoardItems(status) {
         return this.boardItems.filter((x) => x.statuscode === status);
+    }
+
+    onEditRow(editBtn): void {
+        editBtn.setAttribute('data-target', '#edit_' + this.model.id);
+    }
+
+    onSubmit(closeButton) {
+        let err = '';
+        Object.keys(this.model).forEach((fld) => {
+            if (fld !== 'id' && this.ITEM_CRUD_SPEC.hasOwnProperty(fld)) {
+                if (this.checkIfInvalid(fld)) {
+                    err = `${fld} is required`;
+                }
+            }
+        });
+        if (err !== '') {
+            this.toastr.error(err, 'Item', {
+                timeOut: 3000,
+            });
+            return false;
+        }
+
+        this.itemService.updateItem(this.model).toPromise();
+        this.toastr.success('Updated Ok!', 'Item', {
+            timeOut: 3000,
+        });
+
+        closeButton.click();
+
+        return true;
+    }
+
+    checkIfInvalid(fld) {
+        if (this.ITEM_CRUD_SPEC[fld].required && this.model[fld] === '') {
+            return true;
+        }
+        switch (fld) {
+            case 'assignedtouser':
+                return (this.model.statuscode as string) === 'Assigned' && this.model[fld] === '';
+                break;
+        }
     }
 
     trackByItemId1(index: number, item: any): number {
