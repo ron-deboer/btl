@@ -10,15 +10,11 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
-import { IUser } from '../_interfaces/user';
-import { ICode } from '../_interfaces/code';
 
-declare var alasql: any;
+import { db, persistDb } from './fake-data';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-    constructor() {}
-
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
         return of(null)
@@ -77,13 +73,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let dec = CryptoJS.Rabbit.decrypt(dat, 'QprU5OzwntBSJFfo6b6XRByY8G8cQELn');
             const tmp = dec.toString(CryptoJS.enc.Utf8);
             const a = tmp.split('.');
-            const results = alasql(
-                `SELECT * FROM db.users WHERE username='${a[0]}' AND password='${a[1]}'`
-            );
-            if (results.length === 0) {
+            let row = db.users.find((x) => x.username === a[0] && x.password === a[1]);
+            if (row === undefined) {
                 return error('Invalid credentials');
             }
-            const user = results[0];
+            const user = row;
             return ok({
                 id: user.id,
                 username: user.username,
@@ -97,48 +91,41 @@ export class FakeBackendInterceptor implements HttpInterceptor {
          * update existing row
          */
         function doUpdate(dat: any, dtype: string) {
-            let sql = `UPDATE db.${dtype} SET `;
+            let row = db[dtype].find((x) => x.id === dat.id);
             Object.keys(dat).forEach((fld) => {
                 if (fld !== 'id') {
-                    sql += `${fld}='${dat[fld]}', `;
+                    row[fld] = dat[fld];
                 }
             });
-            sql = sql.slice(0, -2) + ` WHERE id=${dat.id};`;
-            // console.log('updatesql >>>', sql);
-            const results = alasql(sql);
+            setTimeout(() => {
+                persistDb();
+            }, 250);
             return ok({});
         }
         /**
          * insert new row
          */
         function doInsert(dat: any, dtype: string) {
-            let sql = `INSERT INTO db.${dtype} VALUES (${dat.id}, `;
-            Object.keys(dat).forEach((fld) => {
-                if (fld !== 'id') {
-                    sql += `'${dat[fld]}', `;
-                }
-            });
-            sql = sql.slice(0, -2) + `);`;
-            console.log('insertsql >>>', sql);
-            const results = alasql(sql);
+            db[dtype].push(dat);
+            console.table(db[dtype]);
+            setTimeout(() => {
+                persistDb();
+            }, 250);
             return ok({});
         }
         /**
          * get all users
          */
         function doGetAll(dtype: string) {
-            const results = alasql(`SELECT * FROM db.${dtype}`);
-            results.forEach((x) => {
-                x.token = `dummy-jwt-token.${x.id}`;
-            });
+            let results = db[dtype];
             return ok(results);
         }
         /**
          * get user by id
          */
         function doGetById(dtype: string) {
-            const user = this.users.find((x) => x.id === idFromUrl());
-            return ok(user);
+            const row = db[dtype].find((x) => x.id === idFromUrl());
+            return ok(row);
         }
         /**
          * code route handler

@@ -60,6 +60,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngOnInit(): void {
         this.user = JSON.parse(sessionStorage.getItem('user'));
+        this.reloadData();
+    }
+
+    ngOnChanges(): void {}
+
+    ngAfterViewInit(): void {}
+
+    reloadData() {
         let prArray = [] as any;
         prArray.push(this.fetchAllItems());
         prArray.push(this.fetchAllCodes());
@@ -73,10 +81,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             this.cdRef.detectChanges();
         });
     }
-
-    ngOnChanges(): void {}
-
-    ngAfterViewInit(): void {}
 
     loadBoardItems() {
         this.boardItems = this.items.filter((x) => x.boardcode === this.boardCode);
@@ -108,6 +112,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             .toPromise()
             .then((resp) => {
                 this.codes = resp;
+                this.loadSelectCodes('boardcode', ECodeType.Board);
+                this.loadSelectCodes('projectcode', ECodeType.Project);
+                this.loadSelectCodes('prioritycode', ECodeType.Priority);
+                this.loadSelectCodes('sizecode', ECodeType.Size);
+                this.loadSelectCodes('statuscode', ECodeType.Status);
                 return true;
             });
     }
@@ -118,7 +127,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             .toPromise()
             .then((resp) => {
                 this.users = resp.sort((a, b) => (a.username > b.username ? 1 : -1));
-                // this.loadSelectUsers('assignedtouser');
+                this.loadSelectUsers('assignedtouser');
                 return true;
             });
     }
@@ -138,8 +147,40 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
         return this.boardItems.filter((x) => x.statuscode === status);
     }
 
-    onEditRow(editBtn): void {
-        editBtn.setAttribute('data-target', '#edit_' + this.model.id);
+    onEditRow(editBtn, status): void {
+        this.initModel(status);
+    }
+
+    initModel(status) {
+        this.model = <IItem>{
+            id: 0,
+            title: '',
+            disporder: 0,
+            boardcode: this.boardCode as ECodeType.Board,
+            projectcode: '' as ECodeType.Project,
+            prioritycode: '' as ECodeType.Priority,
+            sizecode: '' as ECodeType.Size,
+            statuscode: status as ECodeType.Status,
+            createdbyuser: this.user.username,
+            createdtimestamp: new Date().toISOString(),
+            assignedtouser: '',
+            assignedtimestamp: '',
+            closedbyuser: '',
+            closedtimestamp: '',
+            description: '',
+            comments: '',
+        };
+        console.log(this.model);
+    }
+
+    loadSelectCodes(key, codeType) {
+        this.ITEM_CRUD_SPEC[key].source = this.codes
+            .filter((x) => x.codetype === codeType)
+            .map((x) => x.code);
+    }
+
+    loadSelectUsers(key) {
+        this.ITEM_CRUD_SPEC[key].source = this.users.map((x) => x.username);
     }
 
     onSubmit(closeButton) {
@@ -157,12 +198,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             });
             return false;
         }
+        this.model.id = this.items.sort((a, b) => (a.id < b.id ? 1 : -1))[0].id + 2;
+        this.model.disporder = this.model.id + 10000;
+        this.itemService.insertItem(this.model).toPromise();
 
-        this.itemService.updateItem(this.model).toPromise();
-        this.toastr.success('Updated Ok!', 'Item', {
+        this.toastr.success('Inserted Ok!', 'Item', {
             timeOut: 3000,
         });
 
+        this.reloadData();
         closeButton.click();
 
         return true;
