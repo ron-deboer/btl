@@ -2,7 +2,7 @@
     <div class="item-card-body">
         <div class="header">
             <div class="title">
-                <span class="id">[{{ model.id }}]</span> {{ model.title }}
+                <span class="id">({{ model.id }})</span> {{ model.title }}
             </div>
             <div class="handle">
                 <button
@@ -65,7 +65,7 @@
         >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Item</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Item {{ model.id }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
