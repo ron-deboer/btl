@@ -2,6 +2,17 @@ import { IUser, ERole } from '../_interfaces/user';
 import { ICode, ECodeType } from '../_interfaces/code';
 import { IItem } from '../_interfaces/item';
 
+/**
+ * db object and core functions
+ */
+export let db = null;
+export const fetchDb = () => {
+    db = JSON.parse(localStorage.getItem('demoDb'));
+};
+export const persistDb = () => {
+    localStorage.setItem('demoDb', JSON.stringify(db));
+};
+
 const FAKE_USERS: IUser[] = [
     {
         id: 1,
@@ -300,22 +311,13 @@ const FAKE_ITEMS: IItem[] = [
 ];
 
 export const FakeDataLoader = () => {
-    localStorage.removeItem('demoDb');
-    let str = JSON.stringify({
-        users: FAKE_USERS,
-        code: FAKE_CODES,
-        item: FAKE_ITEMS,
-    });
-    localStorage.setItem('demoDb', str);
-};
-
-/**
- * db object and core functions
- */
-export let db = null;
-export const fetchDb = () => {
-    db = JSON.parse(localStorage.getItem('demoDb'));
-};
-export const persistDb = () => {
-    localStorage.setItem('demoDb', JSON.stringify(db));
+    let db = localStorage.getItem('demoDb');
+    if (!Boolean(db)) {
+        let str = JSON.stringify({
+            users: FAKE_USERS,
+            code: FAKE_CODES,
+            item: FAKE_ITEMS,
+        });
+        localStorage.setItem('demoDb', str);
+    }
 };

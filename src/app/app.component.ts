@@ -10,9 +10,7 @@ import { db, fetchDb, persistDb, FakeDataLoader } from './_helpers/fake-data';
 export class AppComponent implements OnInit {
     title = 'btl';
     ngOnInit() {
-        if (db === null) {
-            FakeDataLoader();
-        }
+        FakeDataLoader();
         fetchDb();
     }
 }
