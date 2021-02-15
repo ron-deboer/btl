@@ -25,51 +25,51 @@
                 </select>
             </div>
         </div>
-        <div class="main" *ngIf="!loading">
-            <div class="column">
-                <div class="header">
-                    <div class="title">Open Items</div>
-                    <div>+</div>
-                </div>
-                <ul class="open-items items">
-                    <li *ngFor="let item of getBoardItems('Open'); index as i; trackBy: trackByItemId1">
-                        <app-item [item]="item"></app-item>
-                    </li>
-                </ul>
-            </div>
-            <div class="column">
-                <div class="header">
-                    <div class="title">Assigned</div>
-                    <div>+</div>
-                </div>
-                <ul class="open-items items">
-                    <li *ngFor="let item of getBoardItems('Assigned'); index as i; trackBy: trackByItemId2">
-                        <app-item [item]="item"></app-item>
-                    </li>
-                </ul>
-            </div>
-            <div class="column">
-                <div class="header">
-                    <div class="title">In Review</div>
-                    <div>+</div>
-                </div>
-                <ul class="open-items items">
-                    <li *ngFor="let item of getBoardItems('Review'); index as i; trackBy: trackByItemId2">
-                        <app-item [item]="item"></app-item>
-                    </li>
-                </ul>
-            </div>
-            <div class="column">
-                <div class="header">
-                    <div class="title">Completed</div>
-                    <div>+</div>
-                </div>
-                <ul class="open-items items">
-                    <li *ngFor="let item of getBoardItems('Closed'); index as i; trackBy: trackByItemId2">
-                        <app-item [item]="item"></app-item>
-                    </li>
-                </ul>
-            </div>
-        </div>
     </form>
+    <div class="main" *ngIf="!loading">
+        <div class="column">
+            <div class="header">
+                <div class="title">Open Items</div>
+                <div>+</div>
+            </div>
+            <ul class="open-items items">
+                <li *ngFor="let item of getBoardItems('Open'); index as i; trackBy: trackByItemId1">
+                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <div class="header">
+                <div class="title">Assigned</div>
+                <div>+</div>
+            </div>
+            <ul class="open-items items">
+                <li *ngFor="let item of getBoardItems('Assigned'); index as i; trackBy: trackByItemId2">
+                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <div class="header">
+                <div class="title">In Review</div>
+                <div>+</div>
+            </div>
+            <ul class="open-items items">
+                <li *ngFor="let item of getBoardItems('Review'); index as i; trackBy: trackByItemId2">
+                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <div class="header">
+                <div class="title">Completed</div>
+                <div>+</div>
+            </div>
+            <ul class="open-items items">
+                <li *ngFor="let item of getBoardItems('Closed'); index as i; trackBy: trackByItemId2">
+                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

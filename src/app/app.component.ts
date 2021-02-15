@@ -11,16 +11,7 @@ declare var alasql: any;
 export class AppComponent implements OnInit {
     title = 'btl';
     ngOnInit() {
-        // alasql('CREATE indexeddb DATABASE IF NOT EXISTS db');
-        // alasql('ATTACH indexeddb DATABASE db');
-        alasql(
-            'CREATE localstorage DATABASE IF NOT EXISTS db;\
-        ATTACH localstorage DATABASE db;\
-        USE db;',
-            [],
-            function () {
-                FakeDataLoader();
-            }
-        );
+        alasql('CREATE localstorage DATABASE IF NOT EXISTS db');
+        alasql('ATTACH localstorage DATABASE db');
     }
 }
