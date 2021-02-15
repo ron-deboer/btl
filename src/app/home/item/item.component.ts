@@ -67,11 +67,7 @@ export class ItemComponent implements OnInit, OnChanges, AfterViewInit {
         });
     }
 
-    ngOnChanges(): void {
-        // if (this.model) {
-        //     console.log('item component change >>>', this.model.title);
-        // }
-    }
+    ngOnChanges(): void {}
 
     fetchAllCodes(): Promise<any> {
         return this.codeService

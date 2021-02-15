@@ -4,7 +4,7 @@
     margin-bottom: 10px;
     background-color: #fff;
     padding: 10px;
-    font-size: 0.8vw;
+    font-size: 0.7vw;
     .item-card-body {
         padding: 0;
         .header {
@@ -19,13 +19,13 @@
             .handle {
                 cursor: pointer;
                 .btn-edit {
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    background-color: #ccf;
+                    line-height: 16px;
+                    border: 0;
+                    vertical-align: top;
                 }
                 .icon {
-                    height: 12px;
-                    width: 12px;
+                    font-size: 16px;
+                    font-weight: 700;
                 }
                 .btn-edit:focus {
                     outline: 0;

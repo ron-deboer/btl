@@ -33,7 +33,15 @@ export class CodesComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.fetchAllCodes().then((resp) => {
             this.codes = resp.sort((a, b) =>
-                a.codetype < b.codetype ? -1 : a.codetype > b.codetype ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0
+                a.codetype < b.codetype
+                    ? -1
+                    : a.codetype > b.codetype
+                    ? 1
+                    : a.id < b.id
+                    ? -1
+                    : a.id > b.id
+                    ? 1
+                    : 0
             );
             this.loading = false;
         });
@@ -48,7 +56,6 @@ export class CodesComponent implements OnInit, AfterViewInit {
     }
 
     onSubmit(closeButton) {
-        console.log(this.model);
         if (this.model.id > 0) {
             const idx = this.codes.findIndex((x) => x.id === this.model.id);
             this.codes[idx] = Object.assign({}, this.model);
@@ -76,7 +83,9 @@ export class CodesComponent implements OnInit, AfterViewInit {
         }
         const dat = this.codes.find((x) => x.id === idx);
         Object.keys(this.CODE_CRUD_SPEC).forEach((field) => {
-            this.model[field] = isNumeric(this.CODE_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
+            this.model[field] = isNumeric(this.CODE_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
         });
     }
 }

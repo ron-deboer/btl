@@ -1,4 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IUser } from '../_interfaces/user';
 import { isNumeric } from '../_helpers/utils';
@@ -37,7 +44,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.fetchAllUsers().then((resp) => {
             this.users = resp;
-            // console.log('>>>', this.users.length);
             this.loading = false;
         });
     }
@@ -51,7 +57,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     }
 
     onSubmit(closeButton) {
-        console.log(this.model);
         if (this.model.id > 0) {
             const idx = this.users.findIndex((x) => x.id === this.model.id);
             this.users[idx] = Object.assign({}, this.model);
@@ -80,7 +85,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
         }
         const dat = this.users.find((x) => x.id === idx);
         Object.keys(this.USER_CRUD_SPEC).forEach((field) => {
-            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
+            this.model[field] = isNumeric(this.USER_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
         });
     }
 }

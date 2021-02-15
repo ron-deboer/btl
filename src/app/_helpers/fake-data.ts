@@ -2,7 +2,16 @@ import { IUser, ERole } from '../_interfaces/user';
 import { ICode, ECodeType } from '../_interfaces/code';
 import { IItem } from '../_interfaces/item';
 
-declare var alasql: any;
+/**
+ * db object and core functions
+ */
+export let db = null;
+export const fetchDb = () => {
+    db = JSON.parse(localStorage.getItem('demoDb'));
+};
+export const persistDb = () => {
+    localStorage.setItem('demoDb', JSON.stringify(db));
+};
 
 const FAKE_USERS: IUser[] = [
     {
@@ -302,102 +311,13 @@ const FAKE_ITEMS: IItem[] = [
 ];
 
 export const FakeDataLoader = () => {
-    let loader = new LoadData();
-    loader.loadUsers();
-    if (loader.newDataSet) {
-        loader.loadCodes();
-        loader.loadItems();
+    let db = localStorage.getItem('demoDb');
+    if (!Boolean(db)) {
+        let str = JSON.stringify({
+            users: FAKE_USERS,
+            code: FAKE_CODES,
+            item: FAKE_ITEMS,
+        });
+        localStorage.setItem('demoDb', str);
     }
 };
-
-class LoadData {
-    newDataSet = false;
-    constructor() {}
-
-    loadUsers(): void {
-        try {
-            alasql(
-                'CREATE TABLE db.users (id int, username string, name string, email string, password string, role string, token string)'
-            );
-        } catch (e) {
-            return;
-        }
-        for (let i = 0; i < FAKE_USERS.length; i++) {
-            const { id, username, name, email, password, role } = FAKE_USERS[i];
-            alasql(
-                `INSERT INTO db.users VALUES (${id}, '${username}', '${name}', '${email}', '${role}', '${password}',  '')`
-            );
-        }
-        this.newDataSet = true;
-        const result = alasql(`SELECT * FROM db.users`);
-    }
-
-    loadCodes(): void {
-        alasql('CREATE TABLE db.code (id int, codetype string, code string, description string)');
-        for (let i = 0; i < FAKE_CODES.length; i++) {
-            const { id, codetype, code, description } = FAKE_CODES[i];
-            alasql(`INSERT INTO db.code VALUES (${id}, '${codetype}', '${code}', '${description}')`);
-        }
-        const result = alasql(`SELECT * FROM db.code`);
-    }
-
-    loadItems(): void {
-        alasql(`CREATE TABLE db.item (
-            id int,
-            title string,
-            disporder number,
-            boardcode string,
-            projectcode string,
-            prioritycode string,
-            sizecode string,
-            statuscode string,
-            createdbyuser string,
-            createdtimestamp string,
-            assignedtouser string,
-            assignedtimestamp string,
-            closedbyuser string,
-            closedtimestamp string,
-            description string,
-            comments string
-        )`);
-        for (let i = 0; i < FAKE_ITEMS.length; i++) {
-            const {
-                id,
-                title,
-                disporder,
-                boardcode,
-                projectcode,
-                prioritycode,
-                sizecode,
-                statuscode,
-                createdbyuser,
-                createdtimestamp,
-                assignedtouser,
-                assignedtimestamp,
-                closedbyuser,
-                closedtimestamp,
-                description,
-                comments,
-            } = FAKE_ITEMS[i];
-            alasql(`INSERT INTO db.item VALUES (
-                ${id},
-                '${title}',
-                '${disporder}',
-                '${boardcode}',
-                '${projectcode}',
-                '${prioritycode}',
-                '${sizecode}',
-                '${statuscode}',
-                '${createdbyuser}',
-                '${createdtimestamp}',
-                '${assignedtouser}',
-                '${assignedtimestamp}',
-                '${closedbyuser}',
-                '${closedtimestamp}',
-                '${description}',
-                '${comments}'
-            )`);
-        }
-        const result = alasql(`SELECT * FROM db.item`);
-    }
-}

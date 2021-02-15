@@ -20,7 +20,6 @@
         "@angular/platform-browser-dynamic": "~10.0.2",
         "@angular/router": "~10.0.2",
         "@swimlane/ngx-datatable": "^19.0.0",
-        "alasql": "^0.6.5",
         "crypto-js": "^4.0.0",
         "ngx-toastr": "^13.2.0",
         "rxjs": "~6.5.5",
