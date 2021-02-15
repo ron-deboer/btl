@@ -39,21 +39,20 @@
         grid-gap: 0rem;
         grid-template-columns: repeat(4, 1fr);
         background-color: #eee;
-        padding: 0px 10px;
+        padding: 0px 20px;
         color: #788;
         .column {
             height: calc(100vh - 130px);
-            border-right: 4px solid #fff;
             .header {
                 display: grid;
-                grid-template-columns: 95% auto;
-                padding: 10px;
+                grid-template-columns: 90% auto;
+                padding: 10px 20px;
                 font-weight: 700;
             }
             .items {
                 list-style-type: none;
                 margin: 5px;
-                padding: 0;
+                padding: 0px 10px;
                 font-size: 1.75vh;
                 font-weight: 600;
             }
