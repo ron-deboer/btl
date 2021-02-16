@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import { IUser } from '../_interfaces/user';
-import { EventType, MsgService } from './msg.service';
+import { EventType, MsgBusService } from './msgbus.service';
 
 import * as CryptoJS from 'crypto-js';
 
@@ -16,7 +16,7 @@ export class AuthService {
     authenticated = false;
     redirectUrl: string = '/';
 
-    constructor(private router: Router, private http: HttpClient, private msgService: MsgService) {
+    constructor(private router: Router, private http: HttpClient, private msgBusService: MsgBusService) {
         const userStr = sessionStorage.getItem('user');
         if (Boolean(userStr)) {
             this.user = JSON.parse(userStr);
@@ -39,9 +39,8 @@ export class AuthService {
             .toPromise()
             .then(
                 (user) => {
-                    console.log(user);
                     this.user = user;
-                    this.msgService.broadcast(EventType.Refresh, {});
+                    this.msgBusService.broadcast(EventType.Refresh, {});
                     sessionStorage.setItem('user', JSON.stringify(user));
                     this.authenticated = true;
                     this.router.navigate([this.redirectUrl]);

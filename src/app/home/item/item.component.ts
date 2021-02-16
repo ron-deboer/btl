@@ -25,6 +25,9 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class ItemComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() item: IItem;
+    @Input() codes: ICode[];
+    @Input() users: IUser[];
+
     @Output() itemUpdated = new EventEmitter();
 
     ITEM_CRUD_SPEC = {
@@ -42,8 +45,6 @@ export class ItemComponent implements OnInit, OnChanges, AfterViewInit {
 
     loading = true;
     model: IItem;
-    codes: ICode[] = [];
-    users: IUser[] = [];
 
     constructor(
         private itemService: ItemService,
@@ -53,47 +54,20 @@ export class ItemComponent implements OnInit, OnChanges, AfterViewInit {
         private cdRef: ChangeDetectorRef
     ) {}
 
-    ngOnInit(): void {}
-
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
+        this.loadSelectCodes('boardcode', ECodeType.Board);
+        this.loadSelectCodes('projectcode', ECodeType.Project);
+        this.loadSelectCodes('prioritycode', ECodeType.Priority);
+        this.loadSelectCodes('sizecode', ECodeType.Size);
+        this.loadSelectCodes('statuscode', ECodeType.Status);
+        this.loadSelectUsers('assignedtouser');
         this.model = Object.assign({}, this.item);
-        let prArray = [] as any;
-        prArray.push(this.fetchAllCodes());
-        prArray.push(this.fetchAllUsers());
-
-        Promise.all(prArray).then((values) => {
-            this.loading = false;
-            this.cdRef.detectChanges();
-        });
+        this.loading = false;
     }
+
+    ngAfterViewInit(): void {}
 
     ngOnChanges(): void {}
-
-    fetchAllCodes(): Promise<any> {
-        return this.codeService
-            .getAll()
-            .toPromise()
-            .then((resp) => {
-                this.codes = resp;
-                this.loadSelectCodes('boardcode', ECodeType.Board);
-                this.loadSelectCodes('projectcode', ECodeType.Project);
-                this.loadSelectCodes('prioritycode', ECodeType.Priority);
-                this.loadSelectCodes('sizecode', ECodeType.Size);
-                this.loadSelectCodes('statuscode', ECodeType.Status);
-                return true;
-            });
-    }
-
-    fetchAllUsers(): Promise<any> {
-        return this.userService
-            .getAll()
-            .toPromise()
-            .then((resp) => {
-                this.users = resp.sort((a, b) => (a.username > b.username ? 1 : -1));
-                this.loadSelectUsers('assignedtouser');
-                return true;
-            });
-    }
 
     loadSelectCodes(key, codeType) {
         this.ITEM_CRUD_SPEC[key].source = this.codes

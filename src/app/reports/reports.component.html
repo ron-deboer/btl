@@ -1,0 +1,31 @@
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<div class="reports-container">
+    <div class="title">
+        <h5>Reports</h5>
+    </div>
+    <div class="main-table" *ngIf="!loading">
+        <ngx-datatable
+            #codeTable
+            class="bootstrap striped"
+            [loadingIndicator]="loadingIndicator"
+            [columnMode]="'force'"
+            [rows]="items"
+            [columns]="columns"
+            [headerHeight]="43"
+            rowHeight="35"
+            [reorderable]="reorderable"
+        >
+            <ngx-datatable-column name="Item Id" prop="id"></ngx-datatable-column>
+            <ngx-datatable-column name="Item Title" prop="title" [width]="400"></ngx-datatable-column>
+            <ngx-datatable-column name="Kanban Board" prop="boardcode"></ngx-datatable-column>
+            <ngx-datatable-column name="Project" prop="projectcode"></ngx-datatable-column>
+            <ngx-datatable-column name="Priority" prop="prioritycode"></ngx-datatable-column>
+            <ngx-datatable-column name="Size" prop="sizecode"></ngx-datatable-column>
+            <ngx-datatable-column name="Assigned To" prop="assignedtouser">wfwef</ngx-datatable-column>
+            <ngx-datatable-column name="Status" prop="statuscode"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

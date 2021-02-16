@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { IUser } from '../_interfaces/user';
-import { EventType, MsgService } from '../_services/msg.service';
+import { EventType, MsgBusService } from '../_services/msgbus.service';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -10,24 +10,26 @@ import { AuthService } from '../_services/auth.service';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
     user: IUser = null;
     private subscriptions: Subscription = new Subscription();
 
     constructor(
-        private msgService: MsgService,
+        private msgBusService: MsgBusService,
         private authService: AuthService,
         private cdRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
         this.getSessionData();
-        this.subscriptions.add(
-            this.msgService.on(EventType.Refresh).subscribe((data) => {
-                this.getSessionData();
-                this.cdRef.detectChanges();
-            })
-        );
+        this.msgBusService.listenFor(EventType.Refresh).then((data) => {
+            this.getSessionData();
+            this.cdRef.detectChanges();
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
     }
 
     getSessionData(): void {
