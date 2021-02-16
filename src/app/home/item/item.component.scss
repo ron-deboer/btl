@@ -8,12 +8,13 @@
     .item-card-body {
         padding: 0;
         .header {
+            color: #b84;
             padding: 5px 0px;
             display: grid;
             grid-template-columns: 90% auto;
             .title {
                 .id {
-                    color: #ccc;
+                    color: #788;
                 }
             }
             .handle {
@@ -35,18 +36,19 @@
         .item-card-text {
             padding: 10px 0px;
             font-weight: 400;
-            color: #ccc;
+            color: #b84;
             .codes {
                 display: flex;
+                flex-wrap: wrap;
                 .code {
                     border: 1px solid #ddd;
-                    font-size: 1.2vh;
+                    font-size: 1.1vh;
                     text-align: center;
                     text-transform: uppercase;
                     padding: 4px;
-                    margin-right: 5px;
+                    margin-right: 3px;
                     .badge {
-                        padding: 4px 10px;
+                        padding: 4px 8px;
                     }
                 }
             }

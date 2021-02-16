@@ -20,6 +20,10 @@
         <div class="item-card-text">
             <div class="codes">
                 <div class="code">
+                    Project<br />
+                    <span class="badge badge-pill badge-info"> {{ model.projectcode }}</span>
+                </div>
+                <div class="code">
                     Priority<br />
                     <span class="badge badge-pill" [ngClass]="getCodeClass('priority', model.prioritycode)">
                         {{ model.prioritycode }}</span

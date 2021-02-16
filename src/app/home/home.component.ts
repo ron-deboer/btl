@@ -31,8 +31,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
     codes: ICode[] = [];
     users: IUser[] = [];
     boards: ICode[] = [];
+    projects: any[] = [];
     statuses: ICode[] = [];
     boardCode: string;
+    projectCode: string;
     boardItems: IItem[] = [];
 
     ITEM_CRUD_SPEC = {
@@ -84,6 +86,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
         Promise.all(prArray).then((values) => {
             this.boards = this.codes.filter((x) => x.codetype === (ECodeType.Board as string));
             this.statuses = this.codes.filter((x) => x.codetype === (ECodeType.Status as string));
+            this.projects = this.codes.filter((x) => x.codetype === (ECodeType.Project as string));
+            this.projects.unshift({ code: 'All' });
+            this.projectCode = 'All';
             this.loadBoardItems();
             this.loading = false;
             this.cdRef.detectChanges();
@@ -92,6 +97,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     loadBoardItems() {
         this.boardItems = this.items.filter((x) => x.boardcode === this.boardCode);
+        if (this.projectCode !== 'All') {
+            this.boardItems = this.boardItems.filter((x) => x.projectcode === this.projectCode);
+        }
     }
 
     fetchAllItems(): Promise<any> {
@@ -147,6 +155,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             const data = { id: this.user.id, boardcode: this.boardCode };
             this.userService.updateUser(data);
         }, 1000);
+        this.handleReload(null);
+    }
+
+    onProjectChange() {
         this.handleReload(null);
     }
 
