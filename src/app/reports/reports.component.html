@@ -18,42 +18,14 @@
             rowHeight="35"
             [reorderable]="reorderable"
         >
+            <ngx-datatable-column name="Item Id" prop="id"></ngx-datatable-column>
             <ngx-datatable-column name="Item Title" prop="title" [width]="400"></ngx-datatable-column>
             <ngx-datatable-column name="Kanban Board" prop="boardcode"></ngx-datatable-column>
             <ngx-datatable-column name="Project" prop="projectcode"></ngx-datatable-column>
             <ngx-datatable-column name="Priority" prop="prioritycode"></ngx-datatable-column>
             <ngx-datatable-column name="Size" prop="sizecode"></ngx-datatable-column>
-            <ngx-datatable-column name="Assigned To" prop="assignedtouser"></ngx-datatable-column>
+            <ngx-datatable-column name="Assigned To" prop="assignedtouser">wfwef</ngx-datatable-column>
             <ngx-datatable-column name="Status" prop="statuscode"></ngx-datatable-column>
-            <ngx-datatable-column name="Edit" prop="id">
-                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    <div data-toggle="tooltip" data-placement="right" title="Edit Code">
-                        <button
-                            class="btn-edit"
-                            data-title="Edit"
-                            data-toggle="modal"
-                            data-target="#edit"
-                            (click)="onEditRow(value)"
-                        >
-                            <i class="fa fa-pencil fa-xs"></i>
-                        </button>
-                    </div>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Delete" prop="id">
-                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    <div data-toggle="tooltip" data-placement="right" title="Delete Code">
-                        <button
-                            class="btn-delete"
-                            data-title="Delete"
-                            data-toggle="modal"
-                            data-target="#delete"
-                        >
-                            <i class="fa fa-trash fa-xs"></i>
-                        </button>
-                    </div>
-                </ng-template>
-            </ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>

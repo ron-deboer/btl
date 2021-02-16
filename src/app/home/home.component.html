@@ -59,7 +59,12 @@
             </div>
             <ul class="open-items items">
                 <li *ngFor="let item of getBoardItems('Open'); index as i; trackBy: trackByItemId1">
-                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                    <app-item
+                        [item]="item"
+                        [codes]="codes"
+                        [users]="users"
+                        (itemUpdated)="handleReload($event)"
+                    ></app-item>
                 </li>
             </ul>
         </div>
@@ -81,7 +86,12 @@
             </div>
             <ul class="open-items items">
                 <li *ngFor="let item of getBoardItems('Assigned'); index as i; trackBy: trackByItemId2">
-                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                    <app-item
+                        [item]="item"
+                        [codes]="codes"
+                        [users]="users"
+                        (itemUpdated)="handleReload($event)"
+                    ></app-item>
                 </li>
             </ul>
         </div>
@@ -103,7 +113,12 @@
             </div>
             <ul class="open-items items">
                 <li *ngFor="let item of getBoardItems('Review'); index as i; trackBy: trackByItemId2">
-                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                    <app-item
+                        [item]="item"
+                        [codes]="codes"
+                        [users]="users"
+                        (itemUpdated)="handleReload($event)"
+                    ></app-item>
                 </li>
             </ul>
         </div>
@@ -125,7 +140,12 @@
             </div>
             <ul class="open-items items">
                 <li *ngFor="let item of getBoardItems('Closed'); index as i; trackBy: trackByItemId2">
-                    <app-item [item]="item" (itemUpdated)="handleReload($event)"></app-item>
+                    <app-item
+                        [item]="item"
+                        [codes]="codes"
+                        [users]="users"
+                        (itemUpdated)="handleReload($event)"
+                    ></app-item>
                 </li>
             </ul>
         </div>
