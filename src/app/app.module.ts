@@ -26,6 +26,7 @@ import { DatePipe } from '@angular/common';
 import { ItemsComponent } from './items/items.component';
 import { ItemService } from './_services/item.service';
 import { ItemComponent } from './home/item/item.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
     imports: [
@@ -52,6 +53,7 @@ import { ItemComponent } from './home/item/item.component';
         UsersComponent,
         ItemsComponent,
         ItemComponent,
+        ReportsComponent,
     ],
     providers: [
         DatePipe,
