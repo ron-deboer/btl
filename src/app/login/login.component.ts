@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
         setTimeout(() => {
             this.toastr.info('admin/admin', 'Login', {
-                timeOut: 6000,
+                timeOut: 4000,
             });
         }, 0);
     }
