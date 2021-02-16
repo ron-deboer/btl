@@ -85,6 +85,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 email: '',
                 role: user.role,
                 token: `dummy-jwt-token.${user.id}`,
+                boardcode: user.boardcode,
             });
         }
         /**
