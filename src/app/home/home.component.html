@@ -13,7 +13,7 @@
             <div class="select" *ngIf="!loading">
                 <span class="text">Kanban Board</span>
                 <select
-                    class="form-control-inline form-control-sm"
+                    class="form-control-inline form-control-sm dropdown"
                     id="boardcode"
                     name="boardcode"
                     [(ngModel)]="boardCode"
@@ -21,6 +21,20 @@
                 >
                     <option [ngValue]="bc.code" *ngFor="let bc of boards">
                         {{ bc.code }}
+                    </option>
+                </select>
+            </div>
+            <div class="select" *ngIf="!loading">
+                <span class="text">Project</span>
+                <select
+                    class="form-control-inline form-control-sm dropdown"
+                    id="projectcode"
+                    name="projectcode"
+                    [(ngModel)]="projectCode"
+                    (change)="onProjectChange()"
+                >
+                    <option [ngValue]="pc.code" *ngFor="let pc of projects">
+                        {{ pc.code }}
                     </option>
                 </select>
             </div>
