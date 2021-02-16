@@ -50,6 +50,8 @@
         color: #788;
         .column {
             height: calc(100vh - 130px);
+            overflow-x: hidden;
+            overflow-y: auto;
             .header {
                 display: grid;
                 grid-template-columns: 90% auto;

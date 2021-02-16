@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngOnInit(): void {
         this.user = JSON.parse(sessionStorage.getItem('user'));
-        this.boardCode = this.user.boardcode === '' ? 'Dev' : this.user.boardcode;
+        this.boardCode = !Boolean(this.user.boardcode) ? 'Dev' : this.user.boardcode;
         this.reloadData();
     }
 

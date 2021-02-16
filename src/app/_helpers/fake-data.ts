@@ -23,7 +23,7 @@ const FAKE_USERS: IUser[] = [
         email: 'admin@mail.com',
         password: 'admin',
         role: ERole.Admin,
-        boardcode: '',
+        boardcode: 'Dev',
     },
     {
         id: 2,
@@ -32,7 +32,7 @@ const FAKE_USERS: IUser[] = [
         email: 'user1@mail.com',
         password: 'user-1',
         role: ERole.User,
-        boardcode: '',
+        boardcode: 'Dev',
     },
     {
         id: 3,
@@ -41,7 +41,7 @@ const FAKE_USERS: IUser[] = [
         email: 'luker@mail.com',
         password: 'luker',
         role: ERole.User,
-        boardcode: '',
+        boardcode: 'Dev',
     },
     {
         id: 4,
@@ -50,7 +50,7 @@ const FAKE_USERS: IUser[] = [
         email: 'gailp@mail.com',
         password: 'gailp',
         role: ERole.User,
-        boardcode: '',
+        boardcode: 'Dev',
     },
     {
         id: 5,
@@ -59,7 +59,7 @@ const FAKE_USERS: IUser[] = [
         email: 'patches@mail.com',
         password: 'patches',
         role: ERole.User,
-        boardcode: '',
+        boardcode: 'Dev',
     },
     {
         id: 6,
@@ -68,7 +68,7 @@ const FAKE_USERS: IUser[] = [
         email: 'belladb@mail.com',
         password: 'belladb',
         role: ERole.User,
-        boardcode: '',
+        boardcode: 'Dev',
     },
 ];
 

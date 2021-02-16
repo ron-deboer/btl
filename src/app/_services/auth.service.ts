@@ -39,6 +39,7 @@ export class AuthService {
             .toPromise()
             .then(
                 (user) => {
+                    console.log(user);
                     this.user = user;
                     this.msgService.broadcast(EventType.Refresh, {});
                     sessionStorage.setItem('user', JSON.stringify(user));
