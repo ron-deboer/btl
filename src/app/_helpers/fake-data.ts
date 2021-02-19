@@ -12,6 +12,9 @@ export const fetchDb = () => {
 export const persistDb = () => {
     localStorage.setItem('demoDb', JSON.stringify(db));
 };
+const addDays = (dateIn, days) => {
+    return new Date(dateIn.getFullYear(), dateIn.getMonth(), dateIn.getDate() + days);
+};
 /**
  * fake data
  */
@@ -182,6 +185,7 @@ const FAKE_ITEMS: IItem[] = [
         closedtimestamp: '',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 2,
@@ -201,6 +205,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 3,
@@ -220,6 +225,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 4,
@@ -239,6 +245,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 5,
@@ -258,6 +265,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 6,
@@ -277,6 +285,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 7,
@@ -296,6 +305,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 8,
@@ -315,6 +325,7 @@ const FAKE_ITEMS: IItem[] = [
         description:
             'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. ',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
     {
         id: 9,
@@ -333,6 +344,7 @@ const FAKE_ITEMS: IItem[] = [
         closedtimestamp: '',
         description: 'Add more padding to item card in kanban page',
         comments: '',
+        duedate: addDays(new Date(), 10).toISOString(),
     },
 ];
 /**

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { isNumeric } from '../_helpers/utils';
+import { addDays, isNumeric } from '../_helpers/utils';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../_interfaces/item';
 import { ItemService } from '../_services/item.service';
@@ -98,7 +98,9 @@ export class ItemsComponent implements OnInit, AfterViewInit {
     }
 
     loadSelectCodes(key, codeType) {
-        this.ITEM_CRUD_SPEC[key].source = this.codes.filter((x) => x.codetype === codeType).map((x) => x.code);
+        this.ITEM_CRUD_SPEC[key].source = this.codes
+            .filter((x) => x.codetype === codeType)
+            .map((x) => x.code);
     }
 
     loadSelectUsers(key) {
@@ -120,7 +122,9 @@ export class ItemsComponent implements OnInit, AfterViewInit {
         const dat = this.items.find((x) => x.id === idx);
         Object.keys(this.ITEM_CRUD_SPEC).forEach((field) => {
             const prevValue = this.model[field];
-            this.model[field] = isNumeric(this.ITEM_CRUD_SPEC[field].default) ? parseInt(dat[field], 10) : dat[field];
+            this.model[field] = isNumeric(this.ITEM_CRUD_SPEC[field].default)
+                ? parseInt(dat[field], 10)
+                : dat[field];
             // timestamps
             if (field === 'assignedtouser') {
                 if (prevValue === '' && this.model[field] !== '') {
@@ -190,6 +194,7 @@ export class ItemsComponent implements OnInit, AfterViewInit {
             closedtimestamp: '',
             description: '',
             comments: '',
+            duedate: addDays(new Date(), 10).toISOString(),
         };
     }
 

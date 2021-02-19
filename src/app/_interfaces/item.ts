@@ -14,6 +14,7 @@ export interface IItem {
     assignedtimestamp: string;
     closedbyuser: string;
     closedtimestamp: string;
+    duedate: string;
     description: string;
     comments: string;
 }
