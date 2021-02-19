@@ -9,7 +9,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { isNumeric } from '../_helpers/utils';
+import { addDays, isNumeric } from '../_helpers/utils';
 import { ToastrService } from 'ngx-toastr';
 import { IItem } from '../_interfaces/item';
 import { ItemService } from '../_services/item.service';
@@ -195,6 +195,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnChanges {
             closedtimestamp: '',
             description: '',
             comments: '',
+            duedate: addDays(new Date(), 10).toISOString(),
         };
     }
 
