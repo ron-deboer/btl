@@ -50,8 +50,6 @@
         color: #788;
         .column {
             height: calc(100vh - 130px);
-            overflow-x: hidden;
-            overflow-y: auto;
             .header {
                 display: grid;
                 grid-template-columns: 90% auto;
@@ -73,12 +71,17 @@
                     outline: 0;
                 }
             }
-            .items {
-                list-style-type: none;
-                margin: 5px;
-                padding: 0px 10px;
-                font-size: 1.75vh;
-                font-weight: 600;
+            .itemlist {
+                height: calc(100% - 50px);
+                overflow-x: hidden;
+                overflow-y: auto;
+                .items {
+                    list-style-type: none;
+                    margin: 5px;
+                    padding: 0px 10px;
+                    font-size: 1.75vh;
+                    font-weight: 600;
+                }
             }
         }
     }

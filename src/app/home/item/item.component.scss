@@ -3,13 +3,13 @@
     box-shadow: 2px 2px #ccc;
     margin-bottom: 10px;
     background-color: #fff;
-    padding: 20px;
-    font-size: 0.7vw;
+    padding: 10px;
     .item-card-body {
         padding: 0;
         .header {
+            font-size: 1vh;
             color: #b84;
-            padding: 5px 0px;
+            padding: 2px 0px;
             display: grid;
             grid-template-columns: 90% auto;
             .title {
@@ -27,7 +27,7 @@
                 }
                 .icon {
                     font-size: 16px;
-                    font-weight: 700;
+                    font-weight: 600;
                 }
                 .btn-edit:focus {
                     outline: 0;
@@ -35,7 +35,7 @@
             }
         }
         .item-card-text {
-            padding: 10px 0px;
+            padding: 5px 0px;
             font-weight: 400;
             color: #b84;
             .codes {
@@ -43,7 +43,7 @@
                 flex-wrap: wrap;
                 .code {
                     border: 1px solid #ddd;
-                    font-size: 1.1vh;
+                    font-size: 0.8vh;
                     text-align: center;
                     text-transform: uppercase;
                     padding: 4px;
