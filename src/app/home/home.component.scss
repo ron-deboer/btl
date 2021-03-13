@@ -1,38 +1,38 @@
+$header-font-size: 1.8vh;
 .home-container {
     max-height: 100%;
     overflow: hidden;
-    .header {
+    .pgheader {
         display: grid;
-        grid-template-columns: auto 20% 20%;
+        grid-template-columns: auto 25% 25%;
         padding: 10px;
+        font-size: $header-font-size;
+        line-height: 4vh;    
         .title {
-            h5 {
-                color: #b84;
-                .boardcode {
-                    color: white;
-                    background-color: #b84;
-                    text-transform: uppercase;
-                    padding: 0px 6px;
-                    .btn-edit:focus {
-                        outline: 0;
-                    }
-                }
+            font-size: $header-font-size;
+            line-height: 4vh;            
+            color: #b84;
+            .boardcode {
+                text-transform: uppercase;
+                padding: 0px 6px;
+                font-weight: 700;
             }
         }
         .select {
             color: #788;
             text-align: right;
             .text {
-                margin-right: 10px;
+                margin-right: 5px;
             }
-            margin: 3px 0px;
             text-align: center;
             color: #788;
             #boardcode,
             #projectcode {
+                font-size: $header-font-size;
+                line-height: 4vh;    
                 border: 1px solid #ccc;
                 color: #788;
-                width: 5vw;
+                width: 7vw;
                 padding: 0;
             }
             .dropdown:focus {
@@ -49,11 +49,12 @@
         padding: 0px 20px;
         color: #788;
         .column {
-            height: calc(100vh - 130px);
+            height: calc(100vh - 120px);
             .header {
                 display: grid;
                 grid-template-columns: 90% auto;
                 padding: 10px 20px;
+                font-size: $header-font-size;
                 font-weight: 700;
                 .btn-edit {
                     line-height: 14px;

@@ -1,3 +1,4 @@
+$header-font-size: 1.4vh;
 .item-card {
     border-radius: 4px;
     box-shadow: 2px 2px #ccc;
@@ -7,11 +8,11 @@
     .item-card-body {
         padding: 0;
         .header {
-            font-size: 1vh;
+            font-size: $header-font-size;
             color: #b84;
             padding: 2px 0px;
-            display: grid;
-            grid-template-columns: 90% auto;
+            display: flex;
+            justify-content: space-between;
             .title {
                 .id {
                     color: #788;
@@ -21,12 +22,12 @@
                 cursor: pointer;
                 .btn-edit {
                     background-color: #fff;
-                    line-height: 16px;
+                    line-height: $header-font-size;
                     border: 0;
                     vertical-align: top;
                 }
                 .icon {
-                    font-size: 16px;
+                    font-size: $header-font-size;
                     font-weight: 600;
                 }
                 .btn-edit:focus {
